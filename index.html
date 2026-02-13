@@ -671,7 +671,269 @@
     </div>
 
     <script>
-const games=[{id:1,title:'Gun Master',category:'weapons',emoji:'🔫',description:'Meistere alle Waffen!',plays:24500,rating:4.8,trending:true,new:false},{id:2,title:'Sniper Elite',category:'weapons',emoji:'🎯',description:'Präzisions-Schütze!',plays:19800,rating:4.7,trending:true,new:false},{id:3,title:'Weapon Tycoon',category:'weapons',emoji:'💣',description:'Baue Waffenfabrik auf!',plays:15600,rating:4.6,trending:false,new:true},{id:4,title:'Crossbow Master',category:'weapons',emoji:'🏹',description:'Armbrust-Meister!',plays:13200,rating:4.5,trending:true,new:false},{id:5,title:'Cannon Blast',category:'weapons',emoji:'🎆',description:'Kanonen-Feuer!',plays:17400,rating:4.6,trending:true,new:true},{id:6,title:'Laser Gun',category:'weapons',emoji:'⚡',description:'Zukunfts-Waffen!',plays:14800,rating:4.5,trending:false,new:false},{id:7,title:'Bomb Defuse',category:'weapons',emoji:'💣',description:'Bomben entschärfen!',plays:12300,rating:4.4,trending:true,new:false},{id:8,title:'Rocket Launcher',category:'weapons',emoji:'🚀',description:'Raketen abfeuern!',plays:16900,rating:4.6,trending:true,new:false},{id:9,title:'Sword Combat',category:'weapons',emoji:'⚔️',description:'Schwert-Kampf!',plays:11700,rating:4.5,trending:false,new:true},{id:10,title:'Knife Fight',category:'weapons',emoji:'🔪',description:'Messer-Duell!',plays:10200,rating:4.3,trending:false,new:false},{id:11,title:'Assault Rifle',category:'weapons',emoji:'🔫',description:'Sturmgewehr!',plays:18900,rating:4.7,trending:true,new:false},{id:12,title:'Grenade Throw',category:'weapons',emoji:'💥',description:'Granaten werfen!',plays:9800,rating:4.4,trending:false,new:true},{id:101,title:'Stickman Runner',category:'stickman',emoji:'🚶',description:'Laufen und Springen!',plays:22100,rating:4.7,trending:true,new:false},{id:102,title:'Stickman Fighter',category:'stickman',emoji:'🥊',description:'Kampf-Abenteuer!',plays:19400,rating:4.6,trending:true,new:false},{id:103,title:'Stickman Archer',category:'stickman',emoji:'🏹',description:'Bogenschütze!',plays:16700,rating:4.5,trending:true,new:true},{id:104,title:'Stickman Jump',category:'stickman',emoji:'⬆️',description:'Höher springen!',plays:20300,rating:4.6,trending:true,new:false},{id:105,title:'Stickman Parkour',category:'stickman',emoji:'🏃',description:'Parkour-Abenteuer!',plays:15200,rating:4.5,trending:false,new:true},{id:106,title:'Stickman Death',category:'stickman',emoji:'💀',description:'Gefährliche Fallen!',plays:13800,rating:4.4,trending:true,new:false},{id:107,title:'Stickman War',category:'stickman',emoji:'⚔️',description:'Kriegs-Szenarien!',plays:11900,rating:4.3,trending:false,new:true},{id:108,title:'Stickman Draw',category:'stickman',emoji:'✏️',description:'Zeichne Wege!',plays:14200,rating:4.5,trending:true,new:false},{id:109,title:'Stickman Climbing',category:'stickman',emoji:'🧗',description:'Nach oben klettern!',plays:10600,rating:4.2,trending:false,new:false},{id:110,title:'Stickman Sword',category:'stickman',emoji:'⚔️',description:'Schwert-Kampf!',plays:12400,rating:4.4,trending:false,new:true},{id:201,title:'Clicker Paradise',category:'boredom',emoji:'👈',description:'Einfach klicken!',plays:35600,rating:4.5,trending:true,new:false},{id:202,title:'Cookie Baking',category:'boredom',emoji:'🍪',description:'Backe Kekse!',plays:32100,rating:4.6,trending:true,new:false},{id:203,title:'Bubble Pop',category:'boredom',emoji:'🫧',description:'Pop Blasen!',plays:28900,rating:4.4,trending:true,new:false},{id:204,title:'Sand Draw',category:'boredom',emoji:'🏜️',description:'Zeichne im Sand!',plays:24500,rating:4.3,trending:false,new:true},{id:205,title:'Idle Clicker',category:'boredom',emoji:'⏲️',description:'Passives Spiel!',plays:31200,rating:4.5,trending:true,new:false},{id:206,title:'Bubble Shooter',category:'boredom',emoji:'🎯',description:'Schieße Blasen!',plays:29800,rating:4.4,trending:true,new:false},{id:207,title:'Tap Tap Game',category:'boredom',emoji:'👆',description:'Tippe Dinge!',plays:19200,rating:4.2,trending:false,new:true},{id:208,title:'Coffee Maker',category:'boredom',emoji:'☕',description:'Mache Kaffee!',plays:16700,rating:4.3,trending:false,new:false},{id:209,title:'Plant Growing',category:'boredom',emoji:'🌱',description:'Züchte Pflanzen!',plays:21300,rating:4.4,trending:true,new:false},{id:210,title:'Mood Ring',category:'boredom',emoji:'💍',description:'Entspannungs-Ring!',plays:15400,rating:4.2,trending:false,new:true},{id:301,title:'Space Blaster',category:'action',emoji:'🚀',description:'Zerstöre Asteroiden!',plays:25000,rating:4.8,trending:true,new:false},{id:302,title:'Dino Runner',category:'action',emoji:'🦕',description:'Laufe mit Dino!',plays:20100,rating:4.6,trending:true,new:true},{id:303,title:'Flappy Bird',category:'action',emoji:'🐦',description:'Klassisches Spiel!',plays:28900,rating:4.5,trending:true,new:false},{id:304,title:'Zombie Attack',category:'action',emoji:'🧟',description:'Bekämpfe Zombies!',plays:16200,rating:4.7,trending:true,new:false},{id:305,title:'Ninja Runner',category:'action',emoji:'🥷',description:'Ninja-Lauf!',plays:13400,rating:4.4,trending:false,new:true},{id:401,title:'Puzzle Master',category:'puzzle',emoji:'🧩',description:'Löse Rätsel!',plays:12800,rating:4.7,trending:false,new:false},{id:402,title:'Sudoku Challenge',category:'puzzle',emoji:'🔢',description:'Zahlen-Rätsel!',plays:10500,rating:4.8,trending:false,new:false},{id:403,title:'Memory Cards',category:'puzzle',emoji:'🃏',description:'Finde Paare!',plays:9200,rating:4.5,trending:true,new:false},{id:404,title:'Block Blast',category:'puzzle',emoji:'⬜',description:'Entferne Blöcke!',plays:18700,rating:4.7,trending:true,new:true},{id:405,title:'Match 3',category:'puzzle',emoji:'🟥',description:'Kombiniere Farben!',plays:21400,rating:4.6,trending:true,new:false},{id:501,title:'Adventure Quest',category:'adventure',emoji:'🗺️',description:'Erkunde Welten!',plays:18900,rating:4.8,trending:true,new:false},{id:502,title:'Fantasy Realm',category:'adventure',emoji:'🧙‍♂️',description:'Magische Abenteuer!',plays:15800,rating:4.7,trending:false,new:false},{id:503,title:'Lost City',category:'adventure',emoji:'🏛️',description:'Verlorene Stadt!',plays:14200,rating:4.6,trending:true,new:true},{id:504,title:'Treasure Hunter',category:'adventure',emoji:'💎',description:'Schätze finden!',plays:12800,rating:4.5,trending:false,new:false},{id:505,title:'Dragon Quest',category:'adventure',emoji:'🐉',description:'Besiege Drachen!',plays:16500,rating:4.6,trending:true,new:false},{id:601,title:'Chess Master',category:'strategy',emoji:'♟️',description:'Spiele Schach!',plays:14200,rating:4.9,trending:false,new:false},{id:602,title:'Tower Defense',category:'strategy',emoji:'🏰',description:'Baue Türme!',plays:16500,rating:4.7,trending:true,new:false},{id:603,title:'Risk Empire',category:'strategy',emoji:'🌍',description:'Erobere Welt!',plays:19800,rating:4.5,trending:true,new:true},{id:604,title:'Poker Master',category:'strategy',emoji:'🎰',description:'Spiele Poker!',plays:22100,rating:4.5,trending:true,new:false},{id:605,title:'War Tactics',category:'strategy',emoji:'⚔️',description:'Taktische Kämpfe!',plays:13400,rating:4.4,trending:false,new:true}];let currentUser=null;let userRatings={};let userFavorites=[];let filteredGames=[...games];const authBtn=document.getElementById('authBtn');const authModal=document.getElementById('authModal');const gameModal=document.getElementById('gameModal');const loginBtn=document.getElementById('loginBtn');const logoutBtn=document.getElementById('logoutBtn');const searchInput=document.getElementById('searchInput');const gamesContainer=document.getElementById('gamesContainer');const trendingContainer=document.getElementById('trendingContainer');const newGamesContainer=document.getElementById('newGamesContainer');const categoryFilters=document.querySelectorAll('.category-filter');const sortFilter=document.getElementById('sortFilter');const resetFilters=document.getElementById('resetFilters');const userProfile=document.getElementById('userProfile');const userName=document.getElementById('userName');const gameCount=document.getElementById('gameCount');document.addEventListener('DOMContentLoaded',()=>{loadUserData();renderAllGames();setupEventListeners();});function setupEventListeners(){authBtn.addEventListener('click',()=>{if(currentUser)logoutUser();else openAuthModal();});loginBtn.addEventListener('click',loginUser);logoutBtn.addEventListener('click',logoutUser);searchInput.addEventListener('input',filterGames);categoryFilters.forEach(filter=>filter.addEventListener('change',filterGames));sortFilter.addEventListener('change',filterGames);resetFilters.addEventListener('click',resetAllFilters);document.querySelectorAll('.close-btn').forEach(closeBtn=>{closeBtn.addEventListener('click',(e)=>{e.target.closest('.modal').style.display='none';});});window.addEventListener('click',(e)=>{if(e.target.classList.contains('modal')){e.target.style.display='none';}});}function openAuthModal(){authModal.style.display='block';}function loginUser(){const username=document.getElementById('username').value.trim();const password=document.getElementById('password').value.trim();if(!username||!password){alert('Bitte fülle alle Felder aus!');return;}currentUser=username;saveUserData();updateAuthUI();authModal.style.display='none';document.getElementById('username').value='';document.getElementById('password').value='';alert(`Willkommen, ${username}! 🎮`);}function logoutUser(){saveUserData();currentUser=null;userRatings={};userFavorites=[];localStorage.removeItem('gamePortalUser');updateAuthUI();renderAllGames();alert('Du wurdest abgemeldet!');}function updateAuthUI(){if(currentUser){authBtn.style.display='none';userProfile.style.display='flex';userName.textContent=`👤 ${currentUser}`;}else{authBtn.style.display='block';userProfile.style.display='none';}}function saveUserData(){if(currentUser){const userData={username:currentUser,ratings:userRatings,favorites:userFavorites};localStorage.setItem('gamePortalUser',JSON.stringify(userData));}}function loadUserData(){const savedData=localStorage.getItem('gamePortalUser');if(savedData){const userData=JSON.parse(savedData);currentUser=userData.username;userRatings=userData.ratings||{};userFavorites=userData.favorites||[];updateAuthUI();}}function renderAllGames(){const trendingGames=games.filter(g=>g.trending).slice(0,8);renderGames(trendingGames,trendingContainer,true);const newGames=games.filter(g=>g.new).slice(0,8);renderGames(newGames,newGamesContainer);filterGames();}function renderGames(gamesToRender,container,isTrending=false){if(!container)return;container.innerHTML='';if(gamesToRender.length===0){container.innerHTML='<p style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-secondary);">Keine Spiele gefunden!</p>';return;}gamesToRender.forEach(game=>{const gameCard=createGameCard(game,isTrending);container.appendChild(gameCard);});}function createGameCard(game,isTrending=false){const card=document.createElement('div');card.className=isTrending?'game-card trending':'game-card';const isFavorite=userFavorites.includes(game.id);const userRating=userRatings[game.id]||0;card.innerHTML=`<button class="favorite-btn ${isFavorite?'active':''}" data-game-id="${game.id}">❤️</button>${game.trending?'<div class="game-badge">🔥 TREND</div>':''}${game.new?'<div class="game-badge" style="background-color:#4CAF50;">✨ NEU</div>':''}<div class="game-thumbnail">${game.emoji}</div><div class="game-info"><div class="game-title">${game.title}</div><div class="game-meta"><span class="game-category">${game.category}</span><span class="game-rating">⭐ ${game.rating}</span></div><div class="game-plays">👥 ${game.plays}</div>${userRating>0?`<div class="user-rating">Deine: ${'⭐'.repeat(userRating)}</div>`:''}<button class="play-btn">Spielen</button></div>`;card.querySelector('.play-btn').addEventListener('click',(e)=>{e.stopPropagation();showGameDetail(game);});card.querySelector('.favorite-btn').addEventListener('click',(e)=>{e.stopPropagation();toggleFavorite(game.id,e.target.closest('.favorite-btn'));});card.addEventListener('click',()=>showGameDetail(game));return card;}function toggleFavorite(gameId,btn){if(!currentUser){alert('Bitte melde dich an!');return;}const index=userFavorites.indexOf(gameId);if(index>-1){userFavorites.splice(index,1);btn.classList.remove('active');}else{userFavorites.push(gameId);btn.classList.add('active');}saveUserData();}function showGameDetail(game){const userRating=userRatings[game.id]||0;const detailHTML=`<div class="game-detail-header"><div class="game-detail-image">${game.emoji}</div><div class="game-detail-info"><h1>${game.title}</h1><div class="detail-stats"><div class="stat"><div class="stat-label">Bewertung</div><div class="stat-value">⭐ ${game.rating}</div></div><div class="stat"><div class="stat-label">Kategorie</div><div class="stat-value">${game.category}</div></div><div class="stat"><div class="stat-label">Aufrufe</div><div class="stat-value">👥 ${game.plays}</div></div></div></div></div><div class="detail-section"><h3>📖 Beschreibung</h3><p>${game.description}</p></div>${currentUser?`<div class="detail-section"><h3>⭐ Bewerte dieses Spiel</h3><div class="rating-stars">${[1,2,3,4,5].map(star=>`<span class="star ${userRating>=star?'active':''}" data-rating="${star}">⭐</span>`).join('')}</div><div class="rating-text">${userRating>0?`Deine Bewertung: ${userRating} Stern(e)`:'Klicke auf einen Stern'}</div></div>`:'<div class="detail-section" style="background-color:var(--bg-tertiary);border:1px solid var(--accent);"><p style="color:var(--accent);">🔐 Melde dich an, um zu bewerten!</p></div>'}<button class="play-game-btn">🎮 Jetzt Spielen!</button>`;document.getElementById('gameDetail').innerHTML=detailHTML;gameModal.style.display='block';document.querySelector('.play-game-btn').addEventListener('click',()=>{alert(`🎮 Spiel "${game.title}" wird geladen...`);gameModal.style.display='none';});if(currentUser){document.querySelectorAll('.rating-stars .star').forEach(star=>{star.addEventListener('click',()=>{const rating=parseInt(star.dataset.rating);userRatings[game.id]=rating;saveUserData();showGameDetail(game);renderAllGames();});});}}function filterGames(){const searchTerm=searchInput.value.toLowerCase();const selectedCategory=document.querySelector('.category-filter:checked')?.value||'all';const sortBy=sortFilter.value;filteredGames=games.filter(game=>{const matchesSearch=game.title.toLowerCase().includes(searchTerm)||game.description.toLowerCase().includes(searchTerm);const matchesCategory=selectedCategory==='all'||game.category===selectedCategory;return matchesSearch&&matchesCategory;});switch(sortBy){case 'newest':filteredGames.sort((a,b)=>b.id-a.id);break;case 'trending':filteredGames.sort((a,b)=>{if(a.trending!==b.trending)return b.trending-a.trending;return b.plays-a.plays;});break;case 'popular':filteredGames.sort((a,b)=>b.plays-a.plays);break;case 'rating':filteredGames.sort((a,b)=>b.rating-a.rating);break;}gameCount.textContent=`${filteredGames.length} Spiele`;renderGames(filteredGames,gamesContainer);}function resetAllFilters(){searchInput.value='';document.querySelector('input[name="category"][value="all"]').checked=true;sortFilter.value='newest';filterGames();}
-    </script>
+<script>
+
+////////////////////////////////////////////////////
+// GAME SYSTEM
+////////////////////////////////////////////////////
+
+function startGame(game){
+
+document.getElementById("gameDetail").innerHTML=`
+
+<div class="game-detail-header">
+<div class="game-detail-image">${game.emoji}</div>
+
+<div class="game-detail-info">
+<h1>${game.title}</h1>
+<p>${game.description}</p>
+</div>
+</div>
+
+<div style="
+background:#000;
+height:400px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:2rem;
+margin-top:20px;
+">
+
+🎮 ${game.title} läuft jetzt!
+
+</div>
+
+`;
+
+gameModal.style.display="block";
+}
+
+////////////////////////////////////////////////////
+// FIXED GAME CARD
+////////////////////////////////////////////////////
+
+function createGameCard(game,isTrending=false){
+
+const card=document.createElement("div");
+
+card.className="game-card";
+
+card.innerHTML=`
+
+${game.trending?'<div class="game-badge">🔥 TREND</div>':''}
+${game.new?'<div class="game-badge" style="background:#4CAF50">✨ NEU</div>':''}
+
+<div class="game-thumbnail">${game.emoji}</div>
+
+<div class="game-info">
+
+<div class="game-title">${game.title}</div>
+
+<div class="game-meta">
+<span class="game-category">${game.category}</span>
+<span>⭐ ${game.rating}</span>
+</div>
+
+<button class="play-btn">Spielen</button>
+
+</div>
+`;
+
+card.querySelector(".play-btn").onclick=(e)=>{
+e.stopPropagation();
+startGame(game);
+};
+
+card.onclick=()=>startGame(game);
+
+return card;
+}
+
+////////////////////////////////////////////////////
+// RENDER
+////////////////////////////////////////////////////
+
+function renderGames(list,container,isTrending=false){
+
+container.innerHTML="";
+
+list.forEach(game=>{
+container.appendChild(createGameCard(game,isTrending));
+});
+}
+
+////////////////////////////////////////////////////
+// FILTER SYSTEM
+////////////////////////////////////////////////////
+
+function filterGames(){
+
+const searchTerm=searchInput.value.toLowerCase();
+const selectedCategory=document.querySelector('.category-filter:checked').value;
+
+filteredGames=games.filter(game=>{
+
+const matchesSearch=
+game.title.toLowerCase().includes(searchTerm)||
+game.description.toLowerCase().includes(searchTerm);
+
+const matchesCategory=
+selectedCategory==="all"||game.category===selectedCategory;
+
+return matchesSearch && matchesCategory;
+});
+
+gameCount.textContent=filteredGames.length+" Spiele";
+
+renderGames(filteredGames,gamesContainer);
+}
+
+////////////////////////////////////////////////////
+// RENDER ALL
+////////////////////////////////////////////////////
+
+function renderAllGames(){
+
+renderGames(games.filter(g=>g.trending).slice(0,8),trendingContainer,true);
+
+renderGames(games.filter(g=>g.new).slice(0,8),newGamesContainer);
+
+filterGames();
+}
+
+////////////////////////////////////////////////////
+// EVENTS
+////////////////////////////////////////////////////
+
+function setupEventListeners(){
+
+authBtn.onclick=()=>currentUser?logoutUser():openAuthModal();
+loginBtn.onclick=loginUser;
+logoutBtn.onclick=logoutUser;
+
+searchInput.oninput=filterGames;
+
+categoryFilters.forEach(f=>f.onchange=filterGames);
+
+sortFilter.onchange=filterGames;
+
+resetFilters.onclick=resetAllFilters;
+
+document.querySelectorAll(".close-btn").forEach(btn=>{
+btn.onclick=(e)=>e.target.closest(".modal").style.display="none";
+});
+
+window.onclick=(e)=>{
+if(e.target.classList.contains("modal")) e.target.style.display="none";
+};
+}
+
+////////////////////////////////////////////////////
+// LOGIN SYSTEM
+////////////////////////////////////////////////////
+
+function openAuthModal(){
+authModal.style.display="block";
+}
+
+function loginUser(){
+
+const username=document.getElementById("username").value.trim();
+const password=document.getElementById("password").value.trim();
+
+if(!username||!password){
+alert("Bitte alles ausfüllen");
+return;
+}
+
+currentUser=username;
+
+saveUserData();
+updateAuthUI();
+
+authModal.style.display="none";
+}
+
+function logoutUser(){
+
+currentUser=null;
+userRatings={};
+userFavorites=[];
+
+localStorage.removeItem("gamePortalUser");
+
+updateAuthUI();
+renderAllGames();
+}
+
+function updateAuthUI(){
+
+if(currentUser){
+authBtn.style.display="none";
+userProfile.style.display="flex";
+userName.textContent="👤 "+currentUser;
+}else{
+authBtn.style.display="block";
+userProfile.style.display="none";
+}
+
+}
+
+function saveUserData(){
+
+if(!currentUser) return;
+
+localStorage.setItem("gamePortalUser",JSON.stringify({
+username:currentUser,
+ratings:userRatings,
+favorites:userFavorites
+}));
+
+}
+
+function loadUserData(){
+
+const data=localStorage.getItem("gamePortalUser");
+
+if(!data) return;
+
+const userData=JSON.parse(data);
+
+currentUser=userData.username;
+userRatings=userData.ratings||{};
+userFavorites=userData.favorites||[];
+
+updateAuthUI();
+}
+
+////////////////////////////////////////////////////
+// RESET
+////////////////////////////////////////////////////
+
+function resetAllFilters(){
+
+searchInput.value="";
+document.querySelector('input[value="all"]').checked=true;
+
+filterGames();
+}
+
+////////////////////////////////////////////////////
+// START
+////////////////////////////////////////////////////
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+loadUserData();
+renderAllGames();
+setupEventListeners();
+
+});
+
+
+
 </body>
+
 </html>
