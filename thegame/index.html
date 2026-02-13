@@ -673,94 +673,67 @@
 
 <script>
 
-// ===========================
-// MEGA GAME LIST
-// ===========================
+// =====================
+// SPIELE LISTE
+// =====================
 
-const games = {
+const games = [
 
-action: [
-{ title:"Diggy 2", url:"https://bubblebox.com/html5/embed/diggy2/" },
-{ title:"Action Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" },
-{ title:"Action Game 3", url:"https://bubblebox.com/html5/embed/diggy2/" }
-],
+{ title:"Diggy 2", category:"action", url:"https://bubblebox.com/html5/embed/diggy2/" },
 
-racing: [
-{ title:"Racing Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" },
-{ title:"Racing Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" }
-],
+{ title:"Action Game 2", category:"action", url:"https://bubblebox.com/html5/embed/diggy2/" },
 
-puzzle: [
-{ title:"Puzzle Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" },
-{ title:"Puzzle Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" }
-],
+{ title:"Racing Game 1", category:"racing", url:"https://bubblebox.com/html5/embed/diggy2/" },
 
-shooter: [
-{ title:"Shooter Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" }
-]
+{ title:"Puzzle Game 1", category:"puzzle", url:"https://bubblebox.com/html5/embed/diggy2/" },
 
-};
+{ title:"Shooter Game 1", category:"shooter", url:"https://bubblebox.com/html5/embed/diggy2/" }
 
-// ===========================
+];
+
+// =====================
 // GAME START
-// ===========================
+// =====================
 
 function openGame(url){
 
-const player = document.getElementById("gamePlayer");
-
-if(!player){
-console.error("❌ gamePlayer DIV fehlt!");
-return;
-}
-
-player.innerHTML = `
-<iframe
-src="${url}"
-width="100%"
-height="600"
-frameborder="0"
-allowfullscreen>
-</iframe>
+document.getElementById("gamePlayer").innerHTML = `
+<iframe src="${url}" width="100%" height="600" allowfullscreen></iframe>
 `;
 
 }
 
-// ===========================
-// AUTO LOAD
-// ===========================
+// =====================
+// SPIELE LADEN
+// =====================
 
-function loadGames(){
+function loadGames(filter = "all"){
 
 const container = document.getElementById("gameList");
 
-if(!container){
-console.error("❌ gameList DIV fehlt!");
-return;
-}
+container.innerHTML = "";
 
-for(let category in games){
+games.forEach(game => {
 
-games[category].forEach(game=>{
+if(filter === "all" || game.category === filter){
 
 const div = document.createElement("div");
 
 div.className = "gameCard";
+
 div.innerText = game.title;
 
 div.onclick = () => openGame(game.url);
 
 container.appendChild(div);
 
+}
+
 });
 
 }
 
-}
-
-document.addEventListener("DOMContentLoaded", loadGames);
+document.addEventListener("DOMContentLoaded", () => loadGames());
 
 </script>
 
-
-</script>
