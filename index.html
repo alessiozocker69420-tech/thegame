@@ -18,7 +18,9 @@ box-sizing:border-box;
 --bg-secondary:#1a1a1a;
 --bg-tertiary:#2a2a2a;
 --accent:#ff6b6b;
+--accent-light:#ff8787;
 --text-primary:#ffffff;
+--text-secondary:#999;
 --border:#333;
 }
 
@@ -28,19 +30,34 @@ color:white;
 font-family:Arial;
 }
 
+/* HEADER */
+
 .header{
 background:var(--bg-secondary);
 padding:15px 20px;
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:space-between;
+position:sticky;
+top:0;
 }
 
 .logo{
 font-size:24px;
-color:var(--accent);
 font-weight:bold;
+color:var(--accent);
 }
+
+.search-bar input{
+padding:10px;
+background:var(--bg-tertiary);
+border:none;
+border-radius:20px;
+color:white;
+width:250px;
+}
+
+/* HERO */
 
 .hero{
 background:linear-gradient(135deg,#ff6b6b,#ff8787);
@@ -48,11 +65,25 @@ padding:40px;
 text-align:center;
 }
 
+.hero h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+/* MAIN */
+
 .main-wrapper{
 padding:20px;
 max-width:1200px;
 margin:auto;
 }
+
+.section-header{
+font-size:22px;
+margin-bottom:15px;
+}
+
+/* GRID */
 
 .games-grid{
 display:grid;
@@ -60,13 +91,15 @@ grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
 gap:20px;
 }
 
+/* GAME CARD */
+
 .game-card{
 background:var(--bg-secondary);
 padding:15px;
 border-radius:10px;
 cursor:pointer;
-border:1px solid var(--border);
 transition:0.3s;
+border:1px solid var(--border);
 }
 
 .game-card:hover{
@@ -74,16 +107,28 @@ transform:translateY(-5px);
 border-color:var(--accent);
 }
 
+.game-thumbnail{
+font-size:40px;
+text-align:center;
+margin:15px 0;
+}
+
+.game-title{
+font-weight:bold;
+margin-bottom:10px;
+}
+
 .play-btn{
-margin-top:10px;
 width:100%;
 padding:10px;
-background:var(--accent);
 border:none;
+background:var(--accent);
 color:white;
 border-radius:5px;
 cursor:pointer;
 }
+
+/* MODAL */
 
 .modal{
 display:none;
@@ -92,7 +137,8 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:black;
+background:rgba(0,0,0,0.9);
+z-index:999;
 }
 
 .modal-content{
@@ -100,18 +146,20 @@ width:90%;
 height:90%;
 margin:auto;
 margin-top:2%;
+background:black;
 position:relative;
 }
 
 .close-btn{
 position:absolute;
-right:10px;
 top:10px;
+right:10px;
 background:red;
-border:none;
 color:white;
+border:none;
 padding:10px;
 cursor:pointer;
+z-index:9999;
 }
 
 </style>
@@ -121,27 +169,130 @@ cursor:pointer;
 
 <header class="header">
 <div class="logo">🎮 TheGame</div>
+
+<div class="search-bar">
+<input id="searchInput" placeholder="Spiele suchen...">
+</div>
+
 </header>
 
 <section class="hero">
 <h1>Willkommen zu TheGame</h1>
+<p>Spiele kostenlose Online Games</p>
 </section>
 
 <div class="main-wrapper">
+
+<div class="section-header">Alle Spiele</div>
+
 <div id="gamesContainer" class="games-grid"></div>
+
 </div>
 
 <!-- GAME MODAL -->
 
 <div id="gameModal" class="modal">
+
 <div class="modal-content">
 
-<button id="closeGame" class="close-btn">X</button>
+<button class="close-btn" id="closeGame">X</button>
 
 <div id="gameDetail" style="width:100%;height:100%;"></div>
 
 </div>
+
 </div>
+
+
+<script>
+
+/* ======================
+SPIELE LISTE
+====================== */
+
+const games=[
+
+{
+title:"Ultimate Car Driving Simulator",
+category:"racing",
+url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator"
+},
+
+{
+title:"Stickman Action Demo",
+category:"action",
+url:"https://www.crazygames.com/embed/stickman-fighter"
+}
+
+];
+
+
+/* ======================
+GAME START
+====================== */
+
+function openGame(url){
+
+const modal=document.getElementById("gameModal");
+const detail=document.getElementById("gameDetail");
+
+detail.innerHTML=`
+
+<iframe
+src="${url}"
+width="100%"
+height="100%"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+`;
+
+modal.style.display="block";
+
+}
+
+document.getElementById("closeGame").onclick=()=>{
+
+document.getElementById("gameModal").style.display="none";
+document.getElementById("gameDetail").innerHTML="";
+
+};
+
+
+/* ======================
+SPIELE LADEN
+====================== */
+
+function loadGames(){
+
+const container=document.getElementById("gamesContainer");
+
+container.innerHTML="";
+
+games.forEach(game=>{
+
+const div=document.createElement("div");
+
+div.className="game-card";
+
+div.innerHTML=`
+
+<div class="game-thumbnail">🎮</div>
+<div class="game-title">${game.title}</div>
+<button class="play-btn">Spielen</button>
+
+`;
+
+div.onclick=()=>openGame(game.url);
+
+container.appendChild(div);
+
+});
+
+}
+
+document.addEventListener("DOMContentLoaded",loadGames);
 
 <script>
 
@@ -249,5 +400,3 @@ document.addEventListener("DOMContentLoaded", loadGames);
 
 </body>
 </html>
-
-
