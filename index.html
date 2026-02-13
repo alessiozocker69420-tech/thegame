@@ -773,50 +773,36 @@ const games = [
 // GAME START
 // =====================
 
-function openGame(// =====================
-// GAME START (FIXED)
-// =====================
-
 function openGame(url){
 
    const modal = document.getElementById("gameModal");
    const detail = document.getElementById("gameDetail");
 
    detail.innerHTML = `
-      <div style="
-         position:fixed;
-         top:0;
-         left:0;
-         width:100vw;
-         height:100vh;
-         background:black;
-         z-index:9999;
-      ">
+      <div style="position:relative;width:100%;height:90vh;background:black;">
 
          <button id="closeGame"
             style="
                position:absolute;
-               top:15px;
-               right:15px;
-               z-index:10000;
+               top:10px;
+               right:10px;
+               z-index:9999;
                background:red;
                color:white;
                border:none;
-               padding:12px;
-               font-size:18px;
+               padding:10px;
                cursor:pointer;
+               font-size:18px;
             ">
-            ✖
+            ✕
          </button>
 
          <iframe
             src="${url}"
-            style="
-               width:100%;
-               height:100%;
-               border:none;
-            "
-            allowfullscreen>
+            style="width:100%;height:100%;border:none;"
+            allowfullscreen
+            webkitallowfullscreen
+            mozallowfullscreen>
          </iframe>
 
       </div>
@@ -827,8 +813,6 @@ function openGame(url){
    document.getElementById("closeGame").onclick = () => {
 
       modal.style.display = "none";
-
-      // iframe komplett löschen (wichtig!)
       detail.innerHTML = "";
 
    };
@@ -842,6 +826,7 @@ function loadGames(){
    container.innerHTML = "";
 
    games
+
 
 
 
