@@ -670,163 +670,98 @@
         </div>
     </div>
 
-    <script>
 
-////////////////////////////////////////////////////
-// GAME START SYSTEM (NEU - DAS IST DER FIX)
-////////////////////////////////////////////////////
+<script>
 
-function startGame(game){
+// ===========================
+// MEGA GAME LIST
+// ===========================
 
-const detailHTML=`
+const games = {
 
-<div class="game-detail-header">
+action: [
+{ title:"Diggy 2", url:"https://bubblebox.com/html5/embed/diggy2/" },
+{ title:"Action Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" },
+{ title:"Action Game 3", url:"https://bubblebox.com/html5/embed/diggy2/" }
+],
 
-<div class="game-detail-image">
-${game.emoji}
-</div>
+racing: [
+{ title:"Racing Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" },
+{ title:"Racing Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" }
+],
 
-<div class="game-detail-info">
-<h1>${game.title}</h1>
-<p>${game.description}</p>
-</div>
+puzzle: [
+{ title:"Puzzle Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" },
+{ title:"Puzzle Game 2", url:"https://bubblebox.com/html5/embed/diggy2/" }
+],
 
-</div>
+shooter: [
+{ title:"Shooter Game 1", url:"https://bubblebox.com/html5/embed/diggy2/" }
+]
 
-<div style="
-background:black;
-height:450px;
-border-radius:10px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:2rem;
-margin-top:20px;
-">
-
-🎮 ${game.title} läuft jetzt!
-
-</div>
-
-`;
-
-document.getElementById("gameDetail").innerHTML=detailHTML;
-
-gameModal.style.display="block";
-}
-
-////////////////////////////////////////////////////
-// CREATE GAME CARD (FIXED)
-////////////////////////////////////////////////////
-
-function createGameCard(game,isTrending=false){
-
-const card=document.createElement("div");
-
-card.className=isTrending?"game-card trending":"game-card";
-
-card.innerHTML=`
-
-${game.trending?'<div class="game-badge">🔥 TREND</div>':''}
-${game.new?'<div class="game-badge" style="background:#4CAF50">✨ NEU</div>':''}
-
-<div class="game-thumbnail">${game.emoji}</div>
-
-<div class="game-info">
-
-<div class="game-title">${game.title}</div>
-
-<div class="game-meta">
-<span class="game-category">${game.category}</span>
-<span>⭐ ${game.rating}</span>
-</div>
-
-<div class="game-plays">👥 ${game.plays}</div>
-
-<button class="play-btn">Spielen</button>
-
-</div>
-`;
-
-card.querySelector(".play-btn").onclick=(e)=>{
-e.stopPropagation();
-startGame(game);
 };
 
-card.onclick=()=>startGame(game);
+// ===========================
+// GAME START
+// ===========================
 
-return card;
+function openGame(url){
+
+const player = document.getElementById("gamePlayer");
+
+if(!player){
+console.error("❌ gamePlayer DIV fehlt!");
+return;
 }
 
-////////////////////////////////////////////////////
-// RENDER SYSTEM
-////////////////////////////////////////////////////
+player.innerHTML = `
+<iframe
+src="${url}"
+width="100%"
+height="600"
+frameborder="0"
+allowfullscreen>
+</iframe>
+`;
 
-function renderGames(gamesToRender,container,isTrending=false){
+}
 
-if(!container)return;
+// ===========================
+// AUTO LOAD
+// ===========================
 
-container.innerHTML="";
+function loadGames(){
 
-gamesToRender.forEach(game=>{
+const container = document.getElementById("gameList");
 
-container.appendChild(createGameCard(game,isTrending));
+if(!container){
+console.error("❌ gameList DIV fehlt!");
+return;
+}
+
+for(let category in games){
+
+games[category].forEach(game=>{
+
+const div = document.createElement("div");
+
+div.className = "gameCard";
+div.innerText = game.title;
+
+div.onclick = () => openGame(game.url);
+
+container.appendChild(div);
 
 });
+
 }
 
-////////////////////////////////////////////////////
-// FILTER SYSTEM
-////////////////////////////////////////////////////
-
-function filterGames(){
-
-const searchTerm=searchInput.value.toLowerCase();
-
-const selectedCategory=document.querySelector('.category-filter:checked').value;
-
-filteredGames=games.filter(game=>{
-
-const matchesSearch=
-game.title.toLowerCase().includes(searchTerm) ||
-game.description.toLowerCase().includes(searchTerm);
-
-const matchesCategory=
-selectedCategory==="all" || game.category===selectedCategory;
-
-return matchesSearch && matchesCategory;
-});
-
-gameCount.textContent=filteredGames.length+" Spiele";
-
-renderGames(filteredGames,gamesContainer);
 }
 
-////////////////////////////////////////////////////
-// MAIN RENDER
-////////////////////////////////////////////////////
-
-function renderAllGames(){
-
-renderGames(games.filter(g=>g.trending).slice(0,8),trendingContainer,true);
-
-renderGames(games.filter(g=>g.new).slice(0,8),newGamesContainer);
-
-filterGames();
-}
-
-////////////////////////////////////////////////////
-// START PAGE
-////////////////////////////////////////////////////
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-loadUserData();
-
-renderAllGames();
-
-setupEventListeners();
-
-});
+document.addEventListener("DOMContentLoaded", loadGames);
 
 </script>
+
+
+</script>
+
