@@ -698,11 +698,47 @@ const games = [
 
 function openGame(url){
 
-document.getElementById("gamePlayer").innerHTML = `
-<iframe src="${url}" width="100%" height="600" allowfullscreen></iframe>
-`;
+   const modal = document.getElementById("gameModal");
+   const detail = document.getElementById("gameDetail");
+
+   detail.innerHTML = `
+      <div style="position:relative;width:100%;height:80vh;">
+         <button id="closeGame"
+            style="
+               position:absolute;
+               top:10px;
+               right:10px;
+               z-index:9999;
+               background:red;
+               color:white;
+               border:none;
+               padding:10px;
+               cursor:pointer;
+            ">
+            X
+         </button>
+
+         <iframe
+            src="${url}"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allowfullscreen>
+         </iframe>
+      </div>
+   `;
+
+   modal.style.display = "block";
+
+   document.getElementById("closeGame").onclick = () => {
+
+      modal.style.display = "none";
+      detail.innerHTML = "";
+
+   };
 
 }
+
 
 // =====================
 // SPIELE LADEN
@@ -740,4 +776,5 @@ document.addEventListener("DOMContentLoaded", () => loadGames());
 
 
 </script>
+
 
