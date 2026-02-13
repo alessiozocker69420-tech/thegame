@@ -6,14 +6,17 @@
 
 const games = [
 
-{ id:999, title:"Ultimate Car Driving Simulator", category:"racing", emoji:"🚗", description:"Car Driving Simulator", plays:9999, rating:4.8, trending:true, new:true, url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator" },
+const games = [
 
-// 👉 HIER DEINE GANZE ALTE LISTE WEITER (nichts löschen)
-{ id:1,title:'Gun Master',category:'weapons',emoji:'🔫',description:'Meistere alle Waffen!',plays:24500,rating:4.8,trending:true,new:false },
-
-// usw... (deine komplette Liste bleibt einfach stehen)
+   // ✅ AKTIVES TESTSPIEL
+   {
+      title:"Ultimate Car Driving Simulator",
+      category:"racing",
+      url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator"
+   }
 
 ];
+
 
 let currentUser=null;
 let userRatings={};
@@ -193,3 +196,4 @@ filterGames();
 document.addEventListener("DOMContentLoaded", loadGames);
 
 </script>
+
