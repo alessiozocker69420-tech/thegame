@@ -773,14 +773,37 @@ const games = [
 // GAME START
 // =====================
 
-function openGame(url){
+function openGame(<iframe
+   src="${url}"
+   width="100%"
+   height="100%"
+   frameborder="0"
+   allow="fullscreen"
+   allowfullscreen
+   webkitallowfullscreen
+   mozallowfullscreen
+   style="border:none;">
+</iframe>
+){
+
+  function openGame(<iframe
+   src="${url}"
+   width="100%"
+   height="100%"
+   frameborder="0"
+   allow="fullscreen"
+   allowfullscreen
+   webkitallowfullscreen
+   mozallowfullscreen
+   style="border:none;">
+</iframe>
+){
 
    const modal = document.getElementById("gameModal");
    const detail = document.getElementById("gameDetail");
 
    detail.innerHTML = `
-      <div style="position:relative;width:100%;height:90vh;background:black;">
-
+      <div style="position:relative;width:100%;height:80vh;">
          <button id="closeGame"
             style="
                position:absolute;
@@ -792,19 +815,17 @@ function openGame(url){
                border:none;
                padding:10px;
                cursor:pointer;
-               font-size:18px;
             ">
-            ✕
+            X
          </button>
 
          <iframe
             src="${url}"
-            style="width:100%;height:100%;border:none;"
-            allowfullscreen
-            webkitallowfullscreen
-            mozallowfullscreen>
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allowfullscreen>
          </iframe>
-
       </div>
    `;
 
@@ -813,11 +834,20 @@ function openGame(url){
    document.getElementById("closeGame").onclick = () => {
 
       modal.style.display = "none";
+
+      // iframe komplett löschen → kein Rest Bildschirm
       detail.innerHTML = "";
 
    };
 
 }
+
+}
+
+
+// =====================
+// SPIELE LADEN
+// =====================
 
 function loadGames(){
 
@@ -826,9 +856,6 @@ function loadGames(){
    container.innerHTML = "";
 
    games
-
-
-
 
 
 
