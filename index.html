@@ -1,188 +1,161 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheGame</title>
 
-  <style>
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background:#0b0f14;
-      color:#fff;
-    }
+<style>
 
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:15px 25px;
-      background:#0f1620;
-      border-bottom:1px solid #1f2a38;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    .logo{
-      font-size:22px;
-      font-weight:bold;
-      color:#4caf50;
-    }
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+}
 
-    .search{
-      padding:10px 15px;
-      border-radius:20px;
-      border:none;
-      background:#1a2330;
-      color:white;
-      width:220px;
-    }
+/* HEADER */
 
-    .categories{
-      display:flex;
-      gap:12px;
-      padding:15px 20px;
-      justify-content:center;
-    }
+.header{
+background:#1a1a1a;
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-    .cat{
-      padding:8px 18px;
-      border-radius:12px;
-      border:1px solid #4caf50;
-      cursor:pointer;
-      transition:0.2s;
-    }
+.logo{
+color:#ff6b6b;
+font-size:24px;
+font-weight:bold;
+}
 
-    .cat:hover{
-      background:#4caf50;
-      color:black;
-    }
+/* HERO */
 
-    .container{
-      padding:20px;
-    }
+.hero{
+background:linear-gradient(135deg,#ff6b6b,#ff8787);
+padding:40px;
+text-align:center;
+}
 
-    .top-bar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
+/* MAIN */
 
-    .top-bar h2{
-      margin:0;
-    }
+.main-wrapper{
+padding:20px;
+max-width:1200px;
+margin:auto;
+}
 
-    select{
-      padding:8px;
-      border-radius:6px;
-      border:none;
-      background:#1a2330;
-      color:white;
-    }
+/* GRID */
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-      gap:15px;
-      margin-top:20px;
-    }
+.games-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:20px;
+}
 
-    .card{
-      background:#121a24;
-      border-radius:14px;
-      overflow:hidden;
-      transition:0.2s;
-      cursor:pointer;
-      border:1px solid #1f2a38;
-    }
+/* GAME CARD */
 
-    .card:hover{
-      transform:translateY(-5px) scale(1.03);
-      border-color:#4caf50;
-    }
+.game-card{
+background:#1a1a1a;
+padding:15px;
+border-radius:10px;
+border:1px solid #333;
+cursor:pointer;
+transition:0.3s;
+}
 
-    .card img{
-      width:100%;
-      height:120px;
-      object-fit:cover;
-    }
+.game-card:hover{
+transform:translateY(-5px);
+border-color:#ff6b6b;
+}
 
-    .card-title{
-      padding:10px;
-      font-size:14px;
-    }
+/* GAME IMAGE */
 
-  </style>
+.game-image{
+width:100%;
+height:140px;
+object-fit:cover;
+border-radius:8px;
+margin-bottom:10px;
+}
+
+/* BUTTON */
+
+.play-btn{
+margin-top:10px;
+width:100%;
+padding:10px;
+background:#ff6b6b;
+border:none;
+color:white;
+border-radius:5px;
+cursor:pointer;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+}
+
+.modal-content{
+width:90%;
+height:90%;
+margin:auto;
+margin-top:2%;
+position:relative;
+}
+
+.close-btn{
+position:absolute;
+right:10px;
+top:10px;
+background:red;
+border:none;
+color:white;
+padding:10px;
+cursor:pointer;
+}
+
+</style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">GameHub</div>
-  <input class="search" placeholder="Search games...">
+<header class="header">
+<div class="logo">🎮🕹️ TheGame</div>
 </header>
 
-<div class="categories">
-  <div class="cat" onclick="showCategory('all')">Alle</div>
-  <div class="cat" onclick="showCategory('car')">Auto</div>
-  <div class="cat" onclick="showCategory('action')">Action</div>
+<section class="hero">
+<h1>Willkommen zu TheGame</h1>
+</section>
+
+<div class="main-wrapper">
+<div id="gamesContainer" class="games-grid"></div>
 </div>
 
-<div class="container">
-  <div class="top-bar">
-    <h2 id="title">Alle Games</h2>
-    <select id="sort">
-      <option value="name">Name</option>
-      <option value="new">Neu</option>
-    </select>
-  </div>
+<!-- MODAL -->
 
-  <div class="grid" id="games"></div>
+<div id="gameModal" class="modal">
+<div class="modal-content">
+<button id="closeGame" class="close-btn">X</button>
+<div id="gameDetail" style="width:100%;height:100%;"></div>
+</div>
 </div>
 
 <script>
-  const games = [
-    { name: "Dead Strike", category: "action", img: "https://via.placeholder.com/300x150", date: 3 },
-    { name: "Car Drift", category: "car", img: "https://via.placeholder.com/300x150", date: 1 },
-    { name: "Zombie Run", category: "action", img: "https://via.placeholder.com/300x150", date: 2 },
-    { name: "Dead Strike", img: "https://via.placeholder.com/300x150", date: 3 },
-    { name: "Car Drift", img: "https://via.placeholder.com/300x150", date: 1 },
-    { name: "Zombie Run", img: "https://via.placeholder.com/300x150", date: 2 }
-  ];
-
-  const container = document.getElementById("games");
-
-  function render(list) {
-    container.innerHTML = "";
-    list.forEach(g => {
-      container.innerHTML += `
-        <div class="card">
-          <img src="${g.img}">
-          <div class="card-title">${g.name}</div>
-        </div>
-      `;
-    });
-  }
-
-  document.getElementById("sort").addEventListener("change", e => {
-    let sorted = [...games];
-
-    if (e.target.value === "name") {
-      sorted.sort((a, b) => a.name.localeCompare(b.name));
-    } else {
-      sorted.sort((a, b) => a.date - b.date);
-    }
-
-    render(sorted);
-  });
-
-  function showCategory(cat) {
-    const filtered = games.filter(g => g.category === cat);
-    render(filtered);
-  }
-
-  render(games);
-</script>
-
 
 // =====================
 // SPIELE LISTE
