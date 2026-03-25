@@ -10,16 +10,11 @@
 /* =====================
    BASIC
 ===================== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
 body{
 background:#0f0f0f;
 color:white;
 font-family:Arial;
+margin:0;
 }
 
 /* =====================
@@ -27,34 +22,32 @@ font-family:Arial;
 ===================== */
 .header{
 background:#1a1a1a;
-padding:15px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo{
-color:#ff6b6b;
-font-size:24px;
-font-weight:bold;
-}
-
-/* =====================
-   HERO
-===================== */
-.hero{
-background:linear-gradient(135deg,#ff6b6b,#ff8787);
-padding:40px;
+padding:15px;
 text-align:center;
+font-size:24px;
+color:#ff6b6b;
 }
 
 /* =====================
-   MAIN
+   BUTTONS
 ===================== */
-.main-wrapper{
-padding:20px;
-max-width:1200px;
-margin:auto;
+.filter-bar{
+text-align:center;
+margin:20px;
+}
+
+.filter-btn{
+margin:5px;
+padding:10px 15px;
+background:#1a1a1a;
+border:1px solid #333;
+color:white;
+cursor:pointer;
+border-radius:5px;
+}
+
+.filter-btn:hover{
+background:#ff6b6b;
 }
 
 /* =====================
@@ -64,104 +57,34 @@ margin:auto;
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
 gap:20px;
+padding:20px;
 }
 
 /* =====================
-   GAME CARD
+   CARD
 ===================== */
 .game-card{
 background:#1a1a1a;
 padding:15px;
 border-radius:10px;
-border:1px solid #333;
 cursor:pointer;
-transition:0.3s;
 }
 
-.game-card:hover{
-transform:translateY(-5px);
-border-color:#ff6b6b;
-}
-
-/* =====================
-   IMAGE
-===================== */
 .game-image{
 width:100%;
 height:140px;
 object-fit:cover;
-border-radius:8px;
-margin-bottom:10px;
 }
 
 /* =====================
-   BUTTON
-===================== */
-.play-btn{
-margin-top:10px;
-width:100%;
-padding:10px;
-background:#ff6b6b;
-border:none;
-color:white;
-border-radius:5px;
-cursor:pointer;
-}
-
-/* =====================
-   MODAL
-===================== */
-.modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-}
-
-.modal-content{
-width:90%;
-height:90%;
-margin:auto;
-margin-top:2%;
-position:relative;
-}
-
-.close-btn{
-position:absolute;
-right:10px;
-top:10px;
-background:red;
-border:none;
-color:white;
-padding:10px;
-cursor:pointer;
-}
-
-/* =====================
-   CHATBOT
+   CHAT
 ===================== */
 .chat-container{
+display:none;
 max-width:600px;
-margin:40px auto;
+margin:20px auto;
 background:#1a1a1a;
 padding:20px;
-border-radius:10px;
-}
-
-#chatBox{
-height:200px;
-overflow-y:auto;
-border:1px solid #333;
-padding:10px;
-margin-bottom:10px;
-}
-
-#chatInput{
-width:70%;
-padding:10px;
 }
 
 </style>
@@ -169,55 +92,46 @@ padding:10px;
 
 <body>
 
-<!-- =====================
-     HEADER
-===================== -->
-<header class="header">
-<div class="logo">🎮 TheGame</div>
-</header>
+<div class="header">🎮 TheGame</div>
 
 <!-- =====================
-     HERO
+     BUTTONS
 ===================== -->
-<section class="hero">
-<h1>Willkommen zu TheGame</h1>
-</section>
+<div class="filter-bar">
+
+<button class="filter-btn" onclick="filterGames('all')">Alle</button>
+<button class="filter-btn" onclick="filterGames('racing')">Racing</button>
+<button class="filter-btn" onclick="filterGames('action')">Action</button>
+
+<!-- 🔥 NEU -->
+<button class="filter-btn" onclick="openChatGPT()">ChatGPT</button>
+<button class="filter-btn" onclick="showChat()">Mein Chatbot</button>
+
+</div>
 
 <!-- =====================
      SPIELE
 ===================== -->
-<div class="main-wrapper">
 <div id="gamesContainer" class="games-grid"></div>
-</div>
 
 <!-- =====================
      CHATBOT
 ===================== -->
-<div class="chat-container">
+<div id="chatSection" class="chat-container">
 
-<h2>🤖 Game Chatbot</h2>
+<h2>🤖 Mein Chatbot</h2>
 
-<div id="chatBox"></div>
+<div id="chatBox" style="height:200px;overflow:auto;border:1px solid #333;"></div>
 
 <input id="chatInput" placeholder="Schreib etwas...">
-<button onclick="sendMessage()" class="play-btn">Senden</button>
+<button onclick="sendMessage()">Senden</button>
 
-</div>
-
-<!-- =====================
-     MODAL
-===================== -->
-<div id="gameModal" class="modal">
-<div class="modal-content">
-<button id="closeGame" class="close-btn">X</button>
-<div id="gameDetail" style="width:100%;height:100%;"></div>
-</div>
 </div>
 
 <script>
 
 // =====================
-// SPIELE LISTE
+// SPIELE
 // =====================
 const games = [
 
@@ -230,88 +144,92 @@ const games = [
 ];
 
 // =====================
-// SPIEL STARTEN
-// =====================
-function openGame(url){
-const modal = document.getElementById("gameModal");
-const detail = document.getElementById("gameDetail");
-
-detail.innerHTML = `<iframe src="${url}" width="100%" height="100%"></iframe>`;
-modal.style.display = "block";
-}
-
-// =====================
-// MODAL SCHLIESSEN
-// =====================
-document.getElementById("closeGame").onclick = () => {
-document.getElementById("gameModal").style.display = "none";
-document.getElementById("gameDetail").innerHTML = "";
-};
-
-// =====================
 // SPIELE LADEN
 // =====================
-function loadGames(){
+function loadGames(list){
 const container = document.getElementById("gamesContainer");
 container.innerHTML = "";
 
-games.forEach(game => {
+list.forEach(game => {
 const div = document.createElement("div");
 div.className = "game-card";
 
 div.innerHTML = `
 <img src="${game.image}" class="game-image">
 <h3>${game.title}</h3>
-<button class="play-btn">Spielen</button>
 `;
 
-div.onclick = () => openGame(game.url);
+div.onclick = () => window.open(game.url);
 
 container.appendChild(div);
 });
 }
 
-document.addEventListener("DOMContentLoaded", loadGames);
+// =====================
+// FILTER
+// =====================
+function filterGames(category){
+
+if(category === "all"){
+loadGames(games);
+return;
+}
+
+const filtered = games.filter(g => g.category === category);
+loadGames(filtered);
+}
 
 // =====================
-// EINFACHE KI CHATBOT
+// CHATGPT ÖFFNEN
+// =====================
+function openChatGPT(){
+window.open("https://chat.openai.com", "_blank");
+}
+
+// =====================
+// CHAT ANZEIGEN
+// =====================
+function showChat(){
+document.getElementById("chatSection").style.display = "block";
+window.scrollTo(0, document.body.scrollHeight);
+}
+
+// =====================
+// CHATBOT
 // =====================
 function sendMessage(){
 
 const input = document.getElementById("chatInput");
-const chatBox = document.getElementById("chatBox");
+const box = document.getElementById("chatBox");
 
 const text = input.value.toLowerCase();
 
-// USER
-chatBox.innerHTML += `<p><b>Du:</b> ${text}</p>`;
+box.innerHTML += `<p>Du: ${text}</p>`;
 
-// BOT LOGIK
-let reply = "Das weiß ich nicht 😅";
+let reply = "Keine Ahnung 😅";
 
 if(text.includes("hallo")){
-reply = "Hallo 👋 Willkommen bei TheGame!";
+reply = "Hallo 👋";
 }
-
-else if(text.includes("beliebtestes spiel")){
-reply = "Das beliebteste Spiel ist Traffic Racer 2 🚗🔥";
+else if(text.includes("beliebtestes")){
+reply = "Traffic Racer 2 🚗";
 }
-
 else if(text.includes("wem gehört")){
-reply = "Die Website gehört Alessio 😎";
+reply = "Die Seite gehört Alessio 😎";
+}
+else if(text.includes("nicht beliebt")){
+reply = "SpacePinball 😅";
 }
 
-else if(text.includes("nicht so beliebt")){
-reply = "SpacePinball ist nicht so beliebt 😅";
-}
+box.innerHTML += `<p>Bot: ${reply}</p>`;
 
-// BOT
-chatBox.innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
-
-// RESET
 input.value = "";
-chatBox.scrollTop = chatBox.scrollHeight;
+box.scrollTop = box.scrollHeight;
 }
+
+// =====================
+loadGames(games);
+// =====================
 
 </script>
 
