@@ -7,55 +7,64 @@
 
 <style>
 
-/* =====================
-   BASIC
-===================== */
-body{
-background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
-color:white;
-font-family:Arial;
+/* ===================== */
+/* BASIC */
+/* ===================== */
+
+*{
 margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-/* =====================
-   HEADER
-===================== */
+body{
+background:#0a0a0a;
+color:white;
+font-family:Arial;
+}
+
+/* ===================== */
+/* HEADER */
+/* ===================== */
+
 .header{
-background:#111;
+background:linear-gradient(90deg,#111,#1f1f1f);
 padding:15px;
 text-align:center;
 font-size:28px;
-color:#ff6b6b;
-box-shadow:0 0 10px #000;
+color:#00ffcc;
+text-shadow:0 0 10px #00ffcc;
 }
 
-/* =====================
-   BUTTON BAR
-===================== */
-.filter-bar{
+/* ===================== */
+/* FILTER BUTTONS */
+/* ===================== */
+
+.filter{
 text-align:center;
-padding:15px;
+margin:20px;
 }
 
-.filter-btn{
+.filter button{
+padding:10px 15px;
 margin:5px;
-padding:10px 18px;
-background:#1a1a1a;
-border:1px solid #333;
-color:white;
-cursor:pointer;
+background:#111;
+border:1px solid #00ffcc;
+color:#00ffcc;
 border-radius:8px;
-transition:0.2s;
+cursor:pointer;
+transition:0.3s;
 }
 
-.filter-btn:hover{
-background:#ff6b6b;
-transform:scale(1.05);
+.filter button:hover{
+background:#00ffcc;
+color:black;
 }
 
-/* =====================
-   GRID
-===================== */
+/* ===================== */
+/* GRID */
+/* ===================== */
+
 .games-grid{
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
@@ -63,33 +72,35 @@ gap:20px;
 padding:20px;
 }
 
-/* =====================
-   CARD
-===================== */
+/* ===================== */
+/* CARD */
+/* ===================== */
+
 .game-card{
-background:#1a1a1a;
-padding:15px;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
+background:#111;
+border-radius:15px;
+padding:10px;
 box-shadow:0 0 10px #000;
+transition:0.3s;
+cursor:pointer;
 }
 
 .game-card:hover{
-transform:translateY(-5px);
-box-shadow:0 0 15px #ff6b6b;
+transform:scale(1.05);
+box-shadow:0 0 20px #00ffcc;
 }
 
 .game-image{
 width:100%;
 height:140px;
+border-radius:10px;
 object-fit:cover;
-border-radius:8px;
 }
 
-/* =====================
-   MODAL (SPIEL + CHAT)
-===================== */
+/* ===================== */
+/* MODAL */
+/* ===================== */
+
 .modal{
 display:none;
 position:fixed;
@@ -97,7 +108,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.9);
+background:rgba(0,0,0,0.95);
 }
 
 .modal-content{
@@ -105,37 +116,36 @@ width:90%;
 height:90%;
 margin:auto;
 margin-top:2%;
-background:#111;
+background:#000;
 border-radius:10px;
-padding:10px;
 position:relative;
 }
 
 .close-btn{
 position:absolute;
-right:10px;
 top:10px;
+right:10px;
 background:red;
-border:none;
 color:white;
+border:none;
 padding:10px;
 cursor:pointer;
 }
 
-/* =====================
-   CHAT
-===================== */
-#chatBox{
-height:80%;
-overflow:auto;
-border:1px solid #333;
+/* ===================== */
+/* CHATBOT */
+/* ===================== */
+
+.chat-box{
 padding:10px;
-margin-bottom:10px;
+height:80%;
+overflow-y:auto;
 }
 
 .chat-input{
-width:70%;
+width:100%;
 padding:10px;
+border:none;
 }
 
 </style>
@@ -143,37 +153,38 @@ padding:10px;
 
 <body>
 
+<!-- ===================== -->
+<!-- HEADER -->
+<!-- ===================== -->
+
 <div class="header">🎮 TheGame</div>
 
-<!-- =====================
-     BUTTONS
-===================== -->
-<div class="filter-bar">
+<!-- ===================== -->
+<!-- FILTER -->
+<!-- ===================== -->
 
-<button class="filter-btn" onclick="filterGames('all')">Alle</button>
-<button class="filter-btn" onclick="filterGames('racing')">Racing</button>
-<button class="filter-btn" onclick="filterGames('action')">Action</button>
-
-<button class="filter-btn" onclick="openChat()">🤖 Chatbot</button>
-<button class="filter-btn" onclick="openChatGPT()">💬 ChatGPT</button>
-
+<div class="filter">
+<button onclick="filterGames('all')">Alle</button>
+<button onclick="filterGames('racing')">Racing</button>
+<button onclick="filterGames('action')">Action</button>
+<button onclick="openChatGPT()">ChatGPT</button>
+<button onclick="openBot()">Mein Chatbot</button>
 </div>
 
-<!-- =====================
-     SPIELE
-===================== -->
+<!-- ===================== -->
+<!-- GRID -->
+<!-- ===================== -->
+
 <div id="gamesContainer" class="games-grid"></div>
 
-<!-- =====================
-     MODAL (SPIELE + CHAT)
-===================== -->
+<!-- ===================== -->
+<!-- MODAL -->
+<!-- ===================== -->
+
 <div id="modal" class="modal">
 <div class="modal-content">
-
 <button class="close-btn" onclick="closeModal()">X</button>
-
 <div id="modalContent" style="width:100%;height:100%;"></div>
-
 </div>
 </div>
 
@@ -182,19 +193,21 @@ padding:10px;
 // =====================
 // SPIELE
 // =====================
+
 const games = [
 
 {title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
 
 {title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
 
-{title:"SpacePinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png?w=128"}
+{title:"SpacePinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"}
 
 ];
 
 // =====================
 // SPIELE LADEN
 // =====================
+
 function loadGames(list){
 const container = document.getElementById("gamesContainer");
 container.innerHTML = "";
@@ -212,101 +225,101 @@ div.innerHTML = `
 div.onclick = () => openGame(game.url);
 
 container.appendChild(div);
+
 });
 }
 
 // =====================
-// SPIEL ÖFFNEN
+// FILTER
 // =====================
+
+function filterGames(category){
+
+if(category === "all"){
+loadGames(games);
+}else{
+const filtered = games.filter(g => g.category === category);
+loadGames(filtered);
+}
+
+}
+
+// =====================
+// GAME ÖFFNEN
+// =====================
+
 function openGame(url){
 document.getElementById("modal").style.display = "block";
-
 document.getElementById("modalContent").innerHTML = `
 <iframe src="${url}" width="100%" height="100%"></iframe>
 `;
 }
 
 // =====================
-// CHAT ÖFFNEN (JETZT WIE SPIEL!)
+// CHATGPT ÖFFNEN
 // =====================
-function openChat(){
+
+function openChatGPT(){
 document.getElementById("modal").style.display = "block";
-
 document.getElementById("modalContent").innerHTML = `
-<h2>🤖 Chatbot</h2>
-
-<div id="chatBox"></div>
-
-<input id="chatInput" class="chat-input" placeholder="Schreib etwas...">
-<button onclick="sendMessage()">Senden</button>
+<iframe src="https://chat.openai.com" width="100%" height="100%"></iframe>
 `;
 }
 
 // =====================
-// CHATGPT ÖFFNEN
+// CHATBOT ÖFFNEN
 // =====================
-function openChatGPT(){
-window.open("https://chat.openai.com","_blank");
+
+function openBot(){
+document.getElementById("modal").style.display = "block";
+
+document.getElementById("modalContent").innerHTML = `
+<div class="chat-box" id="chatBox"></div>
+<input class="chat-input" placeholder="Schreib etwas..." onkeydown="sendMessage(event)">
+`;
 }
 
 // =====================
-// MODAL SCHLIESSEN
+// CHATBOT LOGIK
 // =====================
-function closeModal(){
-document.getElementById("modal").style.display = "none";
-document.getElementById("modalContent").innerHTML = "";
-}
 
-// =====================
-// FILTER
-// =====================
-function filterGames(category){
+function sendMessage(e){
+if(e.key !== "Enter") return;
 
-if(category === "all"){
-loadGames(games);
-return;
-}
-
-const filtered = games.filter(g => g.category === category);
-loadGames(filtered);
-}
-
-// =====================
-// CHATBOT
-// =====================
-function sendMessage(){
-
-const input = document.getElementById("chatInput");
+const input = e.target;
+const text = input.value.toLowerCase();
 const box = document.getElementById("chatBox");
 
-const text = input.value.toLowerCase();
+box.innerHTML += `<p><b>Du:</b> ${text}</p>`;
 
-box.innerHTML += `<p>Du: ${text}</p>`;
+let answer = "Das weiß ich nicht 😅";
 
-let reply = "Keine Ahnung 😅";
+// Befehle
+if(text.includes("hallo")) answer = "Hey 👋";
+if(text.includes("beliebteste")) answer = "Traffic Racer 2 ist sehr beliebt 🚗";
+if(text.includes("wem gehört")) answer = "Die Website gehört Alessio 😎";
+if(text.includes("nicht beliebt")) answer = "SpacePinball ist weniger gespielt 🎯";
 
-if(text.includes("hallo")){
-reply = "Hallo 👋";
-}
-else if(text.includes("beliebtestes")){
-reply = "Traffic Racer 2 🚗";
-}
-else if(text.includes("wem gehört")){
-reply = "Die Seite gehört Alessio 😎";
-}
-else if(text.includes("nicht beliebt")){
-reply = "SpacePinball 😅";
-}
-
-box.innerHTML += `<p>Bot: ${reply}</p>`;
+box.innerHTML += `<p><b>Bot:</b> ${answer}</p>`;
 
 input.value = "";
 box.scrollTop = box.scrollHeight;
 }
 
 // =====================
-loadGames(games);
+// MODAL SCHLIESSEN
 // =====================
+
+function closeModal(){
+document.getElementById("modal").style.display = "none";
+document.getElementById("modalContent").innerHTML = "";
+}
+
+// =====================
+// START
+// =====================
+
+loadGames(games);
 
 </script>
 
