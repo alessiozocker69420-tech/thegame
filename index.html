@@ -11,7 +11,7 @@
    BASIC
 ===================== */
 body{
-background:#0f0f0f;
+background:linear-gradient(135deg,#0f0f0f,#1a1a1a);
 color:white;
 font-family:Arial;
 margin:0;
@@ -21,33 +21,36 @@ margin:0;
    HEADER
 ===================== */
 .header{
-background:#1a1a1a;
+background:#111;
 padding:15px;
 text-align:center;
-font-size:24px;
+font-size:28px;
 color:#ff6b6b;
+box-shadow:0 0 10px #000;
 }
 
 /* =====================
-   BUTTONS
+   BUTTON BAR
 ===================== */
 .filter-bar{
 text-align:center;
-margin:20px;
+padding:15px;
 }
 
 .filter-btn{
 margin:5px;
-padding:10px 15px;
+padding:10px 18px;
 background:#1a1a1a;
 border:1px solid #333;
 color:white;
 cursor:pointer;
-border-radius:5px;
+border-radius:8px;
+transition:0.2s;
 }
 
 .filter-btn:hover{
 background:#ff6b6b;
+transform:scale(1.05);
 }
 
 /* =====================
@@ -66,25 +69,73 @@ padding:20px;
 .game-card{
 background:#1a1a1a;
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 10px #000;
+}
+
+.game-card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 15px #ff6b6b;
 }
 
 .game-image{
 width:100%;
 height:140px;
 object-fit:cover;
+border-radius:8px;
+}
+
+/* =====================
+   MODAL (SPIEL + CHAT)
+===================== */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+}
+
+.modal-content{
+width:90%;
+height:90%;
+margin:auto;
+margin-top:2%;
+background:#111;
+border-radius:10px;
+padding:10px;
+position:relative;
+}
+
+.close-btn{
+position:absolute;
+right:10px;
+top:10px;
+background:red;
+border:none;
+color:white;
+padding:10px;
+cursor:pointer;
 }
 
 /* =====================
    CHAT
 ===================== */
-.chat-container{
-display:none;
-max-width:600px;
-margin:20px auto;
-background:#1a1a1a;
-padding:20px;
+#chatBox{
+height:80%;
+overflow:auto;
+border:1px solid #333;
+padding:10px;
+margin-bottom:10px;
+}
+
+.chat-input{
+width:70%;
+padding:10px;
 }
 
 </style>
@@ -103,9 +154,8 @@ padding:20px;
 <button class="filter-btn" onclick="filterGames('racing')">Racing</button>
 <button class="filter-btn" onclick="filterGames('action')">Action</button>
 
-<!-- 🔥 NEU -->
-<button class="filter-btn" onclick="openChatGPT()">ChatGPT</button>
-<button class="filter-btn" onclick="showChat()">Mein Chatbot</button>
+<button class="filter-btn" onclick="openChat()">🤖 Chatbot</button>
+<button class="filter-btn" onclick="openChatGPT()">💬 ChatGPT</button>
 
 </div>
 
@@ -115,17 +165,16 @@ padding:20px;
 <div id="gamesContainer" class="games-grid"></div>
 
 <!-- =====================
-     CHATBOT
+     MODAL (SPIELE + CHAT)
 ===================== -->
-<div id="chatSection" class="chat-container">
+<div id="modal" class="modal">
+<div class="modal-content">
 
-<h2>🤖 Mein Chatbot</h2>
+<button class="close-btn" onclick="closeModal()">X</button>
 
-<div id="chatBox" style="height:200px;overflow:auto;border:1px solid #333;"></div>
+<div id="modalContent" style="width:100%;height:100%;"></div>
 
-<input id="chatInput" placeholder="Schreib etwas...">
-<button onclick="sendMessage()">Senden</button>
-
+</div>
 </div>
 
 <script>
@@ -151,6 +200,7 @@ const container = document.getElementById("gamesContainer");
 container.innerHTML = "";
 
 list.forEach(game => {
+
 const div = document.createElement("div");
 div.className = "game-card";
 
@@ -159,10 +209,52 @@ div.innerHTML = `
 <h3>${game.title}</h3>
 `;
 
-div.onclick = () => window.open(game.url);
+div.onclick = () => openGame(game.url);
 
 container.appendChild(div);
 });
+}
+
+// =====================
+// SPIEL ÖFFNEN
+// =====================
+function openGame(url){
+document.getElementById("modal").style.display = "block";
+
+document.getElementById("modalContent").innerHTML = `
+<iframe src="${url}" width="100%" height="100%"></iframe>
+`;
+}
+
+// =====================
+// CHAT ÖFFNEN (JETZT WIE SPIEL!)
+// =====================
+function openChat(){
+document.getElementById("modal").style.display = "block";
+
+document.getElementById("modalContent").innerHTML = `
+<h2>🤖 Chatbot</h2>
+
+<div id="chatBox"></div>
+
+<input id="chatInput" class="chat-input" placeholder="Schreib etwas...">
+<button onclick="sendMessage()">Senden</button>
+`;
+}
+
+// =====================
+// CHATGPT ÖFFNEN
+// =====================
+function openChatGPT(){
+window.open("https://chat.openai.com","_blank");
+}
+
+// =====================
+// MODAL SCHLIESSEN
+// =====================
+function closeModal(){
+document.getElementById("modal").style.display = "none";
+document.getElementById("modalContent").innerHTML = "";
 }
 
 // =====================
@@ -177,21 +269,6 @@ return;
 
 const filtered = games.filter(g => g.category === category);
 loadGames(filtered);
-}
-
-// =====================
-// CHATGPT ÖFFNEN
-// =====================
-function openChatGPT(){
-window.open("https://chat.openai.com", "_blank");
-}
-
-// =====================
-// CHAT ANZEIGEN
-// =====================
-function showChat(){
-document.getElementById("chatSection").style.display = "block";
-window.scrollTo(0, document.body.scrollHeight);
 }
 
 // =====================
