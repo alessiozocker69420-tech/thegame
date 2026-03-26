@@ -2,77 +2,125 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Gaming Seite</title>
+<title>Gaming Hub🕹️</title>
 
 <style>
 body {
-  background: #0f172a;
-  color: white;
+  margin: 0;
   font-family: Arial;
+  background: radial-gradient(circle, #020617, #000);
+  color: white;
   text-align: center;
 }
 
-/* Buttons */
-.btn {
-  margin: 5px;
-  padding: 10px 20px;
-  background: #22c55e;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+/* HEADER */
+header {
+  padding: 20px;
+  font-size: 30px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #00ffcc, #22c55e);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-/* Spiele */
-.game {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px;
-  background: #1e293b;
-  border-radius: 10px;
-  width: 180px;
+/* BUTTONS */
+.controls {
+  margin: 20px;
+}
+
+.btn {
+  margin: 5px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #111;
+  color: #00ffcc;
+  font-weight: bold;
   cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 0 10px #00ffcc44;
+}
+
+.btn:hover {
+  background: #00ffcc;
+  color: black;
+  transform: scale(1.1);
+}
+
+/* GAMES GRID */
+#games {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* GAME CARD */
+.game {
+  width: 200px;
+  margin: 15px;
+  background: #111;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 15px #000;
+}
+
+.game:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #00ffcc;
 }
 
 .game img {
   width: 100%;
-  border-radius: 10px;
 }
 
-/* iframe */
-#iframeBox {
-  margin-top: 20px;
+.game h3 {
+  padding: 10px;
+}
+
+/* IFRAME PLAYER */
+#player {
+  margin: 20px auto;
+  width: 90%;
+  height: 500px;
   display: none;
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00ffcc;
 }
 
-iframe {
-  width: 80%;
-  height: 400px;
-  border-radius: 10px;
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #00ffcc;
 }
 </style>
 
 </head>
 <body>
 
-<h1>🎮the game🎮 </h1>
+<header>🕹️the game🕹️</header>
 
-<!-- FILTER -->
-<button class="btn" onclick="filterGames('all')">Alle</button>
-<button class="btn" onclick="filterGames('racing')">Racing</button>
-<button class="btn" onclick="filterGames('action')">Action</button>
+<div class="controls">
 
-<br><br>
+  <!-- FILTER -->
+  <button class="btn" onclick="filterGames('all')">Alle</button>
+  <button class="btn" onclick="filterGames('racing')">Racing</button>
+  <button class="btn" onclick="filterGames('action')">Action</button>
 
-<!-- EXTRA BUTTONS -->
-<button class="btn" onclick="openChatGPT()">🤖 ChatGPT</button>
-<button class="btn" onclick="showSound()">🔊 Sound</button>
+  <!-- EXTRA -->
+  <button class="btn" onclick="openChatGPT()">🤖 ChatGPT</button>
+  <button class="btn" onclick="openSounds()">🔊 Sounds</button>
 
-<!-- IFRAME -->
-<div id="iframeBox">
-  <iframe id="frame"></iframe>
 </div>
 
-<!-- SPIELE -->
+<!-- PLAYER -->
+<iframe id="player"></iframe>
+
+<!-- GAMES -->
 <div id="games"></div>
 
 <script>
@@ -82,14 +130,14 @@ function openChatGPT() {
   window.open("https://chat.openai.com", "_blank");
 }
 
-// 🔊 SOUND im iframe
-function showSound() {
-  document.getElementById("iframeBox").style.display = "block";
-  document.getElementById("frame").src = "sound1.mp3";
+// 🔊 MyInstants öffnen
+function openSounds() {
+  window.open("https://www.myinstants.com", "_blank");
 }
 
-// 🎮 SPIELE
+// 🎮 SPIELE (DEINE LISTE)
 const games = [
+
 {title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
 {title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
 {title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
@@ -99,6 +147,7 @@ const games = [
 {title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
 {title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
 {title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
+
 ];
 
 // anzeigen
@@ -117,25 +166,23 @@ function displayGames(list) {
     `;
 
     div.onclick = () => {
-      document.getElementById("iframeBox").style.display = "block";
-      document.getElementById("frame").src = game.url;
+      const player = document.getElementById("player");
+      player.style.display = "block";
+      player.src = game.url;
+      window.scrollTo(0,0);
     };
 
     container.appendChild(div);
   });
 }
 
-// 🎮 FILTER
-function filterGames(category) {
-  if (category === "all") {
-    displayGames(games);
-  } else {
-    const filtered = games.filter(g => g.category === category);
-    displayGames(filtered);
-  }
+// FILTER
+function filterGames(cat) {
+  if (cat === "all") return displayGames(games);
+  displayGames(games.filter(g => g.category === cat));
 }
 
-// Start
+// START
 displayGames(games);
 
 </script>
