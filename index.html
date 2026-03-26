@@ -2,14 +2,24 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Meine Gaming Seite</title>
+<title>Gaming Seite</title>
 
 <style>
 body {
-  background: linear-gradient(135deg, #0f172a, #020617);
+  background: #0f172a;
   color: white;
   font-family: Arial;
   text-align: center;
+}
+
+/* Buttons */
+.btn {
+  margin: 5px;
+  padding: 10px 20px;
+  background: #22c55e;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 /* Spiele */
@@ -18,15 +28,9 @@ body {
   margin: 10px;
   padding: 10px;
   background: #1e293b;
-  border-radius: 12px;
-  cursor: pointer;
+  border-radius: 10px;
   width: 180px;
-  transition: 0.2s;
-}
-
-.game:hover {
-  transform: scale(1.05);
-  background: #334155;
+  cursor: pointer;
 }
 
 .game img {
@@ -34,112 +38,105 @@ body {
   border-radius: 10px;
 }
 
-/* Buttons */
-.btn {
-  margin: 10px;
-  padding: 12px 25px;
-  font-size: 16px;
-  background: #22c55e;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* Sound Menü */
-#soundMenu {
+/* iframe */
+#iframeBox {
+  margin-top: 20px;
   display: none;
 }
 
-.soundBtn {
-  display: block;
-  margin: 8px auto;
-  padding: 10px;
-  width: 200px;
-  background: #334155;
-  color: white;
-  border: none;
+iframe {
+  width: 80%;
+  height: 400px;
   border-radius: 10px;
-  cursor: pointer;
 }
 </style>
 
 </head>
 <body>
 
-<h1>🎮 Meine Gaming Seite</h1>
+<h1>🎮 the—game </h1>
 
-<!-- BUTTONS -->
+<!-- FILTER -->
+<button class="btn" onclick="filterGames('all')">Alle</button>
+<button class="btn" onclick="filterGames('racing')">Racing</button>
+<button class="btn" onclick="filterGames('action')">Action</button>
+
+<br><br>
+
+<!-- EXTRA BUTTONS -->
 <button class="btn" onclick="openChatGPT()">🤖 ChatGPT</button>
-<button class="btn" onclick="toggleSounds()">🔊 Sounds</button>
+<button class="btn" onclick="showSound()">🔊 Sound öffnen</button>
 
-<!-- SOUND MENU -->
-<div id="soundMenu">
-  <button class="soundBtn" onclick="playSound('s1')">🔥 Sound 1</button>
-  <button class="soundBtn" onclick="playSound('s2')">😂 Sound 2</button>
-  <button class="soundBtn" onclick="playSound('s3')">💥 Sound 3</button>
+<!-- IFRAME -->
+<div id="iframeBox">
+  <iframe id="frame"></iframe>
 </div>
 
 <!-- SPIELE -->
 <div id="games"></div>
 
-<!-- AUDIO -->
-<audio id="s1" src="sound1.mp3"></audio>
-<audio id="s2" src="sound2.mp3"></audio>
-<audio id="s3" src="sound3.mp3"></audio>
-
 <script>
 
-// 🤖 ChatGPT öffnen
+// 🤖 ChatGPT
 function openChatGPT() {
   window.open("https://chat.openai.com", "_blank");
 }
 
-// 🔊 Sound Menü
-function toggleSounds() {
-  const menu = document.getElementById("soundMenu");
-  menu.style.display = menu.style.display === "none" ? "block" : "none";
+// 🔊 SOUND im iframe
+function showSound() {
+  document.getElementById("iframeBox").style.display = "block";
+  document.getElementById("frame").src = "sound1.mp3";
 }
 
-// 🔊 Sound abspielen
-function playSound(id) {
-  const s = document.getElementById(id);
-  s.currentTime = 0;
-  s.play();
-}
-
-// 🎮 ALLE DEINE SPIELE
+// 🎮 SPIELE
 const games = [
-
-{title:"Ultimate Car Driving Simulator", url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator", image:"https://via.placeholder.com/200"},
-{title:"Airport Sniper", url:"https://cdn.htmlgames.com/AirportSniper/", image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
-{title:"Traffic Racer 2", url:"https://cdn.htmlgames.com/TrafficRacer2/", image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
-{title:"Space Pinball", url:"https://cdn.htmlgames.com/SpacePinball/", image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
-{title:"Higher or Lower", url:"https://cdn.htmlgames.com/HigherOrLower/", image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
-{title:"City Sniper", url:"https://cdn.htmlgames.com/CitySniper/", image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
-{title:"Thief Puzzle", url:"https://play.famobi.com/thief-puzzle", image:"https://via.placeholder.com/200"},
-{title:"Geometry Dash", url:"https://gdbrowser.com", image:"https://via.placeholder.com/200"},
-{title:"Galaxy Shooter", url:"https://cdn.htmlgames.com/GalaxyShooter/", image:"https://via.placeholder.com/200"}
-
+{title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
+{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
+{title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
+{title:"Space Pinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
+{title:"Higher or Lower",category:"racing",url:"https://cdn.htmlgames.com/HigherOrLower/",image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
+{title:"City Sniper",category:"action",url:"https://cdn.htmlgames.com/CitySniper/",image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
+{title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
+{title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
+{title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
 ];
 
-// 🎮 anzeigen
+// anzeigen
 const container = document.getElementById("games");
 
-games.forEach(game => {
-  const div = document.createElement("div");
-  div.className = "game";
+function displayGames(list) {
+  container.innerHTML = "";
 
-  div.innerHTML = `
-    <img src="${game.image}">
-    <h3>${game.title}</h3>
-  `;
+  list.forEach(game => {
+    const div = document.createElement("div");
+    div.className = "game";
 
-  div.onclick = () => {
-    window.open(game.url, "_blank");
-  };
+    div.innerHTML = `
+      <img src="${game.image}">
+      <h3>${game.title}</h3>
+    `;
 
-  container.appendChild(div);
-});
+    div.onclick = () => {
+      document.getElementById("iframeBox").style.display = "block";
+      document.getElementById("frame").src = game.url;
+    };
+
+    container.appendChild(div);
+  });
+}
+
+// 🎮 FILTER
+function filterGames(category) {
+  if (category === "all") {
+    displayGames(games);
+  } else {
+    const filtered = games.filter(g => g.category === category);
+    displayGames(filtered);
+  }
+}
+
+// Start
+displayGames(games);
 
 </script>
 
