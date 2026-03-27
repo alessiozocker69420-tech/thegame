@@ -5,9 +5,7 @@
 <title>the game</title>
 
 <style>
-:root {
-  --main:#00ffcc;
-}
+:root { --main:#00ffcc; }
 
 body {
   margin:0;
@@ -35,6 +33,7 @@ header {
   cursor:pointer;
 }
 
+/* GRID */
 #games {
   display:flex;
   flex-wrap:wrap;
@@ -49,7 +48,7 @@ header {
   cursor:pointer;
 }
 
-.game img {width:100%;}
+.game img { width:100%; }
 
 /* WINDOWS */
 .window {
@@ -80,6 +79,32 @@ header {
   cursor:pointer;
 }
 
+/* CHAT */
+#chat {
+  display:none;
+  position:fixed;
+  bottom:0;
+  right:0;
+  width:300px;
+  height:400px;
+  background:black;
+  border:2px solid var(--main);
+  flex-direction:column;
+}
+
+#messages {
+  flex:1;
+  overflow:auto;
+  text-align:left;
+  padding:5px;
+}
+
+.msg { margin:5px; }
+.bot { color:#00ffcc; }
+
+#input { display:flex; }
+#input input { flex:1; padding:8px; }
+
 </style>
 </head>
 
@@ -96,16 +121,36 @@ header {
   <!-- SORT -->
   <button class="btn" onclick="app.sortAZ()">A-Z</button>
 
+  <!-- EXTRA -->
+  <button class="btn" onclick="app.toggleChat()">🤖 KI</button>
+  <button class="btn" onclick="app.openSounds()">🔊 Sounds</button>
+
   <br>
   <input id="search" placeholder="🔍 Suche...">
 </div>
 
 <div id="games"></div>
 
-<!-- GAME WINDOW -->
+<!-- GAME -->
 <div id="gameWindow" class="window">
   <button class="close" onclick="app.closeGame()">❌</button>
   <iframe id="player"></iframe>
+</div>
+
+<!-- SOUNDS -->
+<div id="soundWindow" class="window">
+  <button class="close" onclick="app.closeSounds()">❌</button>
+  <iframe src="https://www.myinstants.com"></iframe>
+</div>
+
+<!-- CHAT -->
+<div id="chat">
+  <button class="close" onclick="app.toggleChat()">❌</button>
+  <div id="messages"></div>
+  <div id="input">
+    <input id="userInput" placeholder="Frag was (z.B. 5+5)">
+    <button onclick="app.send()">➤</button>
+  </div>
 </div>
 
 <script>
@@ -128,7 +173,6 @@ this.games=[
 ];
 
 this.filtered=[...this.games];
-
 this.init();
 }
 
@@ -178,6 +222,51 @@ document.getElementById("player").src=url;
 
 closeGame(){
 document.getElementById("gameWindow").style.display="none";
+}
+
+/* SOUNDS */
+openSounds(){
+document.getElementById("soundWindow").style.display="block";
+}
+
+closeSounds(){
+document.getElementById("soundWindow").style.display="none";
+}
+
+/* CHAT */
+toggleChat(){
+const c=document.getElementById("chat");
+c.style.display=c.style.display==="flex"?"none":"flex";
+}
+
+send(){
+const input=document.getElementById("userInput");
+const text=input.value;
+input.value="";
+
+this.addMsg(text,"user");
+this.addMsg(this.ai(text),"bot");
+}
+
+addMsg(text,type){
+const m=document.createElement("div");
+m.className="msg "+type;
+m.innerText=text;
+document.getElementById("messages").appendChild(m);
+}
+
+/* KI (MATHE + BASIC) */
+ai(t){
+t=t.toLowerCase();
+
+if(t.includes("+")||t.includes("-")||t.includes("*")||t.includes("/")){
+try{return "🧠 Ergebnis: "+eval(t);}catch{return "Fehler";}}
+
+if(t.includes("hallo")) return "Hi 👋";
+if(t.includes("wer bist du")) return "Ich bin deine KI 🤖";
+if(t.includes("mathe")) return "Schreib mir z.B. 5+5 😎";
+
+return "🤖 Ich kann Mathe und einfache Fragen!";
 }
 
 }
