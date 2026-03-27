@@ -33,7 +33,6 @@ header {
   cursor:pointer;
 }
 
-/* GRID */
 #games {
   display:flex;
   flex-wrap:wrap;
@@ -50,7 +49,6 @@ header {
 
 .game img { width:100%; }
 
-/* WINDOWS */
 .window {
   display:none;
   position:fixed;
@@ -79,7 +77,6 @@ header {
   cursor:pointer;
 }
 
-/* CHAT */
 #chat {
   display:none;
   position:fixed;
@@ -104,7 +101,6 @@ header {
 
 #input { display:flex; }
 #input input { flex:1; padding:8px; }
-
 </style>
 </head>
 
@@ -113,15 +109,12 @@ header {
 <header>🎮 the game</header>
 
 <div>
-  <!-- FILTER -->
   <button class="btn" onclick="app.filter('all')">Alle</button>
   <button class="btn" onclick="app.filter('racing')">🚗 Racing</button>
   <button class="btn" onclick="app.filter('action')">🔫 Action</button>
 
-  <!-- SORT -->
   <button class="btn" onclick="app.sortAZ()">A-Z</button>
 
-  <!-- EXTRA -->
   <button class="btn" onclick="app.toggleChat()">🤖 KI</button>
   <button class="btn" onclick="app.openSounds()">🔊 Sounds</button>
 
@@ -131,19 +124,16 @@ header {
 
 <div id="games"></div>
 
-<!-- GAME -->
 <div id="gameWindow" class="window">
   <button class="close" onclick="app.closeGame()">❌</button>
   <iframe id="player"></iframe>
 </div>
 
-<!-- SOUNDS -->
 <div id="soundWindow" class="window">
   <button class="close" onclick="app.closeSounds()">❌</button>
   <iframe src="https://www.myinstants.com"></iframe>
 </div>
 
-<!-- CHAT -->
 <div id="chat">
   <button class="close" onclick="app.toggleChat()">❌</button>
   <div id="messages"></div>
@@ -154,22 +144,11 @@ header {
 </div>
 
 <script>
-
 class App {
-
 constructor(){
 this.games=[
-
 {title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
-{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
-{title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
-{title:"Space Pinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
-{title:"Higher or Lower",category:"racing",url:"https://cdn.htmlgames.com/HigherOrLower/",image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
-{title:"City Sniper",category:"action",url:"https://cdn.htmlgames.com/CitySniper/",image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
-{title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
-{title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
-{title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
-
+{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"}
 ];
 
 this.filtered=[...this.games];
@@ -185,7 +164,6 @@ this.render(this.filtered.filter(g=>g.title.toLowerCase().includes(val)));
 });
 }
 
-/* RENDER */
 render(list){
 const c=document.getElementById("games");
 c.innerHTML="";
@@ -198,23 +176,17 @@ c.appendChild(div);
 });
 }
 
-/* FILTER */
 filter(cat){
-if(cat==="all"){
-this.filtered=[...this.games];
-} else {
-this.filtered=this.games.filter(g=>g.category===cat);
-}
+if(cat==="all") this.filtered=[...this.games];
+else this.filtered=this.games.filter(g=>g.category===cat);
 this.render(this.filtered);
 }
 
-/* SORT */
 sortAZ(){
 this.filtered.sort((a,b)=>a.title.localeCompare(b.title));
 this.render(this.filtered);
 }
 
-/* GAME */
 openGame(url){
 document.getElementById("gameWindow").style.display="block";
 document.getElementById("player").src=url;
@@ -224,7 +196,6 @@ closeGame(){
 document.getElementById("gameWindow").style.display="none";
 }
 
-/* SOUNDS */
 openSounds(){
 document.getElementById("soundWindow").style.display="block";
 }
@@ -233,7 +204,6 @@ closeSounds(){
 document.getElementById("soundWindow").style.display="none";
 }
 
-/* CHAT */
 toggleChat(){
 const c=document.getElementById("chat");
 c.style.display=c.style.display==="flex"?"none":"flex";
@@ -255,415 +225,130 @@ m.innerText=text;
 document.getElementById("messages").appendChild(m);
 }
 
-/* KI (MATHE + BASIC) */
 ai(t){
-t=t.toLowerCase();
+t = t.toLowerCase();
 
+// MATHE
 if(t.includes("+")||t.includes("-")||t.includes("*")||t.includes("/")){
-try{return "🧠 Ergebnis: "+eval(t);}catch{return "Fehler";}}
-
-let t = input.toLowerCase();
-
-if(t.includes("hallo")) return "Hi Gamer 👋";
-if(t.includes("bist du ein pro")) return "Ich bin Ultra-Pro 😎";
-if(t.includes("bin ich ein noob")) return "Vielleicht... aber du kannst besser werden 💪";
-if(t.includes("wie werde ich besser")) return "Trainieren, nicht aufgeben 🔥";
-if(t.includes("beste strategie")) return "Denke wie ein Pro 🧠";
-if(t.includes("wie zielen")) return "Immer auf den Kopf 🎯";
-if(t.includes("fps verbessern")) return "Grafik runter, FPS hoch 🚀";
-if(t.includes("lag warum")) return "Dein Internet ist ein Noob 📡";
-if(t.includes("beste waffe")) return "Die, die du beherrschst 🔫";
-if(t.includes("pro tip")) return "Bleib ruhig unter Druck 😎";
-
-if(t.includes("minecraft tip")) return "Baue klug, nicht nur groß ⛏️";
-if(t.includes("fortnite win")) return "Baue schnell und highground holen 🏗️";
-if(t.includes("valorant aim")) return "Crosshair Placement ist alles 🎯";
-if(t.includes("csgo headshot")) return "Nicht sprayen, kontrollieren 🔫";
-if(t.includes("cod movement")) return "Beweg dich ständig 🏃";
-if(t.includes("roblox spielen")) return "Probier neue Games 🎲";
-if(t.includes("lol gewinnen")) return "Farm mehr als dein Gegner 💰";
-if(t.includes("apex team")) return "Teamplay = Sieg 🤝";
-if(t.includes("gta chaos")) return "Mach einfach alles kaputt 😈";
-if(t.includes("elden ring boss")) return "Geduld + Ausweichen 🗡️";
-
-if(t.includes("noob waffe")) return "Alles ist Noob ohne Skill 😂";
-if(t.includes("pro waffe")) return "Skill macht die Waffe 💪";
-if(t.includes("rage vermeiden")) return "Pause machen 😅";
-if(t.includes("tilt")) return "Bleib cool 🧊";
-if(t.includes("beste settings")) return "Was für dich passt ⚙️";
-if(t.includes("gaming setup")) return "RGB = mehr Skill 🌈";
-if(t.includes("fps niedrig")) return "Upgrade deinen PC 💻";
-if(t.includes("ping hoch")) return "Internet checken 📡";
-if(t.includes("headshot üben")) return "Aim Trainer nutzen 🎯";
-if(t.includes("pro werden")) return "Viel spielen 🔥";
-if(t.includes("aim verbessern")) return "Trainiere täglich 🎯";
-if(t.includes("noob sein schlimm")) return "Jeder fängt klein an 😄";
-if(t.includes("pro trick")) return "Lerne von besseren Spielern 👀";
-if(t.includes("beste maus")) return "Die, die zu dir passt 🖱️";
-if(t.includes("beste tastatur")) return "Mechanisch = besser ⌨️";
-if(t.includes("gaming headset")) return "Guter Sound hilft 🎧";
-if(t.includes("gegner zu stark")) return "Lerne aus Niederlagen 💪";
-if(t.includes("immer verlieren")) return "Analysiere deine Fehler 🧠";
-if(t.includes("wie clutch")) return "Ruhig bleiben 😎";
-if(t.includes("team schlecht")) return "Carry selbst 🔥";
-
-if(t.includes("solo spielen")) return "Gut zum Üben 🎮";
-if(t.includes("mit freunden spielen")) return "Mehr Spaß 😂";
-if(t.includes("beste map")) return "Die du kennst 🗺️";
-if(t.includes("map lernen")) return "Spiel sie oft 📍";
-if(t.includes("aim schlecht")) return "Übung macht den Meister 🎯";
-if(t.includes("reaction time")) return "Trainieren 🧠⚡";
-if(t.includes("gaming skill")) return "Kommt mit Zeit ⏳";
-if(t.includes("pro gamer werden")) return "Viel Geduld 💪";
-if(t.includes("streamer werden")) return "Sei unterhaltsam 🎥";
-if(t.includes("youtube gamer")) return "Mach gute Videos 📺";
-
-if(t.includes("beste sniper")) return "Die mit der du triffst 🎯";
-if(t.includes("rushen gut")) return "Nur wenn du Skill hast 😎";
-if(t.includes("campen")) return "Noob Style 😂";
-if(t.includes("movement lernen")) return "Beweg dich viel 🏃";
-if(t.includes("fps drops")) return "Hintergrundprogramme schließen 🧹";
-if(t.includes("grafik hoch")) return "Schöne Grafik, weniger FPS 🌄";
-if(t.includes("grafik niedrig")) return "Mehr FPS 🚀";
-if(t.includes("beste dpi")) return "800 ist beliebt 🖱️";
-if(t.includes("sens einstellen")) return "Teste verschiedene ⚙️";
-if(t.includes("crosshair")) return "Mach es klein 🎯";
-
-if(t.includes("pro settings")) return "Individuell ⚙️";
-if(t.includes("noob fehler")) return "Zu aggressiv spielen 😅";
-if(t.includes("pro fehler")) return "Selten 😎";
-if(t.includes("teamwork wichtig")) return "Sehr wichtig 🤝";
-if(t.includes("alleine gewinnen")) return "Schwer aber möglich 💪";
-if(t.includes("clutch moment")) return "Jetzt wird’s spannend 🔥";
-if(t.includes("gaming nacht")) return "Nicht zu lang 😂";
-if(t.includes("zu viel zocken")) return "Pause machen 🛑";
-if(t.includes("gaming pause")) return "Sehr wichtig 👍";
-if(t.includes("besser konzentrieren")) return "Ruhe & Fokus 🧠";
-
-if(t.includes("beste strategie shooter")) return "Position halten 🎯";
-if(t.includes("beste strategie battle royale")) return "Highground 🏗️";
-if(t.includes("beste strategie survival")) return "Ressourcen sammeln 🌲";
-if(t.includes("beste strategie rpg")) return "Leveln ⭐";
-if(t.includes("gegner überraschen")) return "Unerwartet spielen 😈";
-if(t.includes("flanken")) return "Sehr effektiv 🔄";
-if(t.includes("rush team")) return "Koordiniert spielen 🤝";
-if(t.includes("defensiv spielen")) return "Sicher aber langsam 🛡️";
-if(t.includes("aggressiv spielen")) return "Riskant aber stark 🔥";
-if(t.includes("balanced spielen")) return "Beste Mischung ⚖️";
-
-if(t.includes("pro mindset")) return "Nie aufgeben 💪";
-if(t.includes("noob mindset")) return "Schnell aufgeben 😅";
-if(t.includes("gaming motivation")) return "Hab Spaß 🎮";
-if(t.includes("warum verlieren")) return "Fehler analysieren 🧠";
-if(t.includes("wie gewinnen öfter")) return "Konstant spielen 🔥";
-if(t.includes("bester spielstil")) return "Deiner 😎";
-if(t.includes("skill verbessern schnell")) return "Trainieren täglich 🎯";
-if(t.includes("pro training")) return "Aim + Strategie 🧠";
-if(t.includes("noob training")) return "Einfach spielen 😂";
-if(t.includes("gaming tricks")) return "Kleine Dinge machen den Unterschied ✨";  
-if(t.includes("beste grafikkarte")) return "Je stärker, desto besser 💻";
-if(t.includes("gaming pc bauen")) return "Achte auf CPU + GPU Balance ⚙️";
-if(t.includes("low end pc")) return "Spiel auf low settings 🎮";
-if(t.includes("high end pc")) return "Ultra Settings genießen 😎";
-if(t.includes("controller oder maus")) return "Maus ist präziser 🖱️";
-if(t.includes("controller aim")) return "Aim Assist hilft 🎯";
-if(t.includes("keyboard wichtig")) return "Für Movement sehr wichtig ⌨️";
-if(t.includes("wie reagieren schneller")) return "Übung + Schlaf 🧠⚡";
-if(t.includes("beste spielzeit")) return "Wenn du konzentriert bist ⏰";
-if(t.includes("nachts zocken")) return "Nicht zu lange 😂";
-
-if(t.includes("skill verlieren")) return "Mach Pause und komm zurück 🔄";
-if(t.includes("warming up")) return "Sehr wichtig vor Matches 🔥";
-if(t.includes("cold spielen")) return "Schlechter Start 😅";
-if(t.includes("aim trainer")) return "Sehr effektiv 🎯";
-if(t.includes("trainingsplan")) return "Regelmäßig üben 📅";
-if(t.includes("pro gamer leben")) return "Viel Training + Disziplin 💪";
-if(t.includes("esport")) return "Hardcore Gaming 🏆";
-if(t.includes("turnier gewinnen")) return "Skill + Teamwork 🏅";
-if(t.includes("rank verbessern")) return "Konstant spielen 📈";
-if(t.includes("elo verlieren")) return "Tilt vermeiden 😤";
-
-if(t.includes("beste drops")) return "Hotdrop für Action 🔥";
-if(t.includes("safe spielen")) return "Langsam aber sicher 🛡️";
-if(t.includes("loot finden")) return "Erkunde viel 🧭";
-if(t.includes("inventory voll")) return "Sortiere Items 🎒";
-if(t.includes("beste rüstung")) return "Max Level holen 🛡️";
-if(t.includes("heilung nutzen")) return "Immer vorbereitet sein ❤️";
-if(t.includes("granaten nutzen")) return "Sehr stark 💣";
-if(t.includes("snipen lernen")) return "Geduld + Timing 🎯";
-if(t.includes("spray kontrollieren")) return "Übung im Training 🔫";
-if(t.includes("recoil")) return "Nach unten ziehen 🖱️";
-
-if(t.includes("movement trick")) return "Strafen lernen 🏃";
-if(t.includes("springen im fight")) return "Kann helfen 🤸";
-if(t.includes("ducken im fight")) return "Schwerer zu treffen 🎯";
-if(t.includes("aim duel")) return "Bleib ruhig 😎";
-if(t.includes("1v1 gewinnen")) return "Besser aimen 💪";
-if(t.includes("1v2")) return "Klug spielen 🧠";
-if(t.includes("1v3")) return "Sehr schwer 😅";
-if(t.includes("clutch gewinnen")) return "Nerven behalten 🔥";
-if(t.includes("team push")) return "Gemeinsam angreifen 🤝";
-if(t.includes("team split")) return "Riskant spielen ⚠️";
-
-if(t.includes("beste klasse")) return "Die dir liegt 😎";
-if(t.includes("skill tree")) return "Klug verteilen 🌳";
-if(t.includes("xp farmen")) return "Wiederholen 🔁";
-if(t.includes("level max")) return "Endgame erreicht 🏆";
-if(t.includes("boss fight")) return "Mechaniken lernen 🗡️";
-if(t.includes("raid")) return "Team nötig 🤝";
-if(t.includes("dungeon")) return "Loot sammeln 💰";
-if(t.includes("crafting")) return "Items bauen 🔨";
-if(t.includes("upgrade")) return "Stärker werden ⬆️";
-if(t.includes("endgame")) return "Jetzt wird’s ernst 🔥";
-
-if(t.includes("gaming humor")) return "Noob Moments 😂";
-if(t.includes("fail")) return "Passiert jedem 😅";
-if(t.includes("epic win")) return "GG 🎉";
-if(t.includes("rage quit")) return "Nicht gut 😤";
-if(t.includes("toxic spieler")) return "Ignorieren 🚫";
-if(t.includes("freundlich bleiben")) return "Immer besser 😊";
-if(t.includes("chat nutzen")) return "Kommunikation wichtig 💬";
-if(t.includes("voice chat")) return "Schneller reden 🎧";
-if(t.includes("mute alle")) return "Ruhe genießen 🔇";
-if(t.includes("team motivieren")) return "Positiv sein 💪";
-
-if(t.includes("beste game genre")) return "Kommt auf dich an 🎮";
-if(t.includes("shooter")) return "Schnelle Reaktion 🔫";
-if(t.includes("rpg")) return "Story + Leveln 📖";
-if(t.includes("survival")) return "Überleben 🌲";
-if(t.includes("sandbox")) return "Frei spielen 🌍";
-if(t.includes("horror game")) return "Gruselig 👻";
-if(t.includes("fun game")) return "Einfach Spaß 😂";
-if(t.includes("competitive game")) return "Schwitzen 😎";
-if(t.includes("casual game")) return "Chillen 🛋️";
-if(t.includes("beste spiel")) return "Dein Lieblingsspiel ❤️";
-
-if(t.includes("gaming musik")) return "Hilft Fokus 🎵";
-if(t.includes("ohne sound spielen")) return "Schlechter Vorteil 🔇";
-if(t.includes("footsteps hören")) return "Sehr wichtig 👣";
-if(t.includes("sound orten")) return "Gutes Headset 🎧";
-if(t.includes("game lautstärke")) return "Richtig einstellen 🔊";
-if(t.includes("discord")) return "Mit Freunden reden 💬";
-if(t.includes("stream schauen")) return "Von Pros lernen 👀";
-if(t.includes("youtube tipps")) return "Guides schauen 📺";
-if(t.includes("clips machen")) return "Momente speichern 🎥";
-if(t.includes("montage")) return "Cool zusammenschneiden ✂️";
-if(t.includes("wie aim trainieren effektiv")) return "Täglich kurze Sessions 🎯";
-if(t.includes("beste warmup routine")) return "10-15 Minuten Aim Training 🔥";
-if(t.includes("wie nicht nervös spielen")) return "Tief durchatmen 😌";
-if(t.includes("wie fokus halten")) return "Ablenkung vermeiden 🧠";
-if(t.includes("wie konstant spielen")) return "Regelmäßig trainieren 📅";
-if(t.includes("wann pause machen")) return "Wenn du tilted bist 🛑";
-if(t.includes("gaming und schule")) return "Balance ist wichtig 📚";
-if(t.includes("wie schneller lernen")) return "Fehler analysieren 🔍";
-if(t.includes("beste übung aim")) return "Tracking + Flicks 🎯";
-if(t.includes("wie flick shots")) return "Schnell + präzise 🖱️";
-
-if(t.includes("wie spray kontrollieren lernen")) return "Pattern üben 🔫";
-if(t.includes("beste position im game")) return "Highground 🏗️";
-if(t.includes("wie nicht erwischt werden")) return "Leise bewegen 🤫";
-if(t.includes("stealth spielen")) return "Geduldig sein 🕶️";
-if(t.includes("aggressiv pushen wann")) return "Wenn Gegner schwach ist 💥";
-if(t.includes("wie cover nutzen")) return "Immer Deckung suchen 🛡️";
-if(t.includes("peek richtig machen")) return "Kurz raus, schießen 🎯";
-if(t.includes("angle halten")) return "Still bleiben 👀";
-if(t.includes("map awareness")) return "Mini-Map checken 🗺️";
-if(t.includes("game sense verbessern")) return "Erfahrung sammeln 🧠";
-
-if(t.includes("wie besser hören footsteps")) return "Sound lauter 🔊";
-if(t.includes("beste audio settings")) return "Stereo oder Surround testen 🎧";
-if(t.includes("wie gegner lesen")) return "Bewegungen beobachten 👀";
-if(t.includes("prediction lernen")) return "Denke voraus 🔮";
-if(t.includes("bait tactic")) return "Gegner locken 🎣";
-if(t.includes("fake move")) return "Täuschen 😏";
-if(t.includes("rotation im spiel")) return "Früh bewegen 🔄";
-if(t.includes("zone spielen")) return "Immer drin bleiben ⭕";
-if(t.includes("late game tip")) return "Vorsichtig spielen 🔥";
-if(t.includes("early game tip")) return "Schnell looten ⚡";
-
-if(t.includes("mid game strategie")) return "Position sichern 🧠";
-if(t.includes("wie fight starten")) return "Überraschung nutzen 💥";
-if(t.includes("wie fight beenden")) return "Druck machen 🔫";
-if(t.includes("wann heilen")) return "Sicher hinter Deckung ❤️";
-if(t.includes("wann pushen")) return "Wenn Vorteil da ist 💪";
-if(t.includes("wann zurückziehen")) return "Wenn Gefahr hoch ist ⚠️";
-if(t.includes("1v1 aim duel tip")) return "Nicht paniken 😎";
-if(t.includes("1v1 movement")) return "Unvorhersehbar sein 🏃";
-if(t.includes("wie strafing")) return "Links rechts bewegen 🔄";
-if(t.includes("wie jiggle peek")) return "Schnell raus rein ⚡";
-
-if(t.includes("beste reaktionszeit trainieren")) return "Reflex Spiele 🧠⚡";
-if(t.includes("gaming reflex verbessern")) return "Regelmäßig üben 🔁";
-if(t.includes("wie ruhig bleiben ranked")) return "Nicht tilten 😌";
-if(t.includes("wie rank push")) return "Konstant spielen 📈";
-if(t.includes("solo ranked tip")) return "Carry spielen 💪";
-if(t.includes("duo spielen")) return "Gute Kommunikation 🤝";
-if(t.includes("trio team")) return "Koordination wichtig 🧠";
-if(t.includes("full squad")) return "Teamplay entscheidet 🔥";
-if(t.includes("wie callouts geben")) return "Kurz und klar 💬";
-if(t.includes("team kommunikation")) return "Sehr wichtig 🎧";
-
-if(t.includes("wie toxische spieler umgehen")) return "Ignorieren 🚫";
-if(t.includes("mute funktion")) return "Nutzen 👍";
-if(t.includes("report spieler")) return "Wenn nötig 🚨";
-if(t.includes("freundlich bleiben game")) return "Respekt zeigen 😊";
-if(t.includes("tilt stoppen")) return "Pause machen 🛑";
-if(t.includes("gaming frust")) return "Locker bleiben 😅";
-if(t.includes("wie spaß behalten")) return "Nicht nur gewinnen 🎮";
-if(t.includes("gaming motivation halten")) return "Ziele setzen 🎯";
-if(t.includes("wie besser mindset")) return "Positiv denken 💪";
-if(t.includes("wie fokus nach pause")) return "Kurz warmup 🔥";
-
-if(t.includes("beste loot route")) return "Konstant laufen 🧭";
-if(t.includes("wie schnell looten")) return "Wichtige Items nehmen ⚡";
-if(t.includes("inventory management")) return "Ordnung halten 🎒";
-if(t.includes("beste items wählen")) return "Meta beachten 📊";
-if(t.includes("meta verstehen")) return "Patch Notes lesen 📝";
-if(t.includes("patch update")) return "Neues lernen 🔄";
-if(t.includes("balance changes")) return "Anpassen ⚖️";
-if(t.includes("neues update gut")) return "Kommt drauf an 🤔";
-if(t.includes("beste loadout")) return "Dein Style 😎";
-if(t.includes("loadout ändern")) return "Situationsabhängig 🔁";
-
-if(t.includes("wie sniper spielen")) return "Geduldig sein 🎯";
-if(t.includes("close range fight")) return "Schnell reagieren ⚡";
-if(t.includes("long range fight")) return "Genau zielen 🔭";
-if(t.includes("mittel distanz fight")) return "Kontrolle behalten 🔫";
-if(t.includes("hipfire nutzen")) return "Nahkampf 💥";
-if(t.includes("ads nutzen")) return "Präzision 🎯";
-if(t.includes("scope wichtig")) return "Für Distanz 🔭";
-if(t.includes("recoil pattern lernen")) return "Auswendig lernen 🧠";
-if(t.includes("burst fire")) return "Kontrolliert schießen 🔫";
-if(t.includes("tap fire")) return "Einzelschüsse 🎯";
-
-if(t.includes("wie besser movement shooter")) return "Strafen + springen 🏃";
-if(t.includes("wie slide nutzen")) return "Schnell bewegen ⚡";
-if(t.includes("jump peak")) return "Überraschung 😎";
-if(t.includes("crouch spam")) return "Schwerer zu treffen 😅";
-if(t.includes("bhop lernen")) return "Timing üben 🐰";
-if(t.includes("advanced movement")) return "Training nötig 🔥";
-if(t.includes("movement vs aim")) return "Beides wichtig ⚖️";
-if(t.includes("wie dodge schüsse")) return "Unvorhersehbar sein 🧠";
-if(t.includes("wie besser position")) return "Karte kennen 🗺️";
-if(t.includes("highground wichtig")) return "Großer Vorteil 🏗️";
-
-if(t.includes("lowground nachteil")) return "Schlechter Überblick ⬇️";
-if(t.includes("wie zonen kontrollieren")) return "Früh rotieren 🔄";
-if(t.includes("zone damage vermeiden")) return "Rechtzeitig gehen ⭕";
-if(t.includes("storm überleben")) return "Heals mitnehmen ❤️";
-if(t.includes("safe zone spielen")) return "Position sichern 🛡️";
-if(t.includes("late circle tip")) return "Geduldig bleiben 🔥";
-if(t.includes("endgame gewinnen")) return "Keine Fehler machen 🏆";
-if(t.includes("wie clutch final")) return "Fokus 100% 🧠";
-if(t.includes("final fight tip")) return "Bleib ruhig 😎";
-if(t.includes("victory sichern")) return "Smart spielen 🏅";
-if(t.includes("wie besser decision making")) return "Schnell + klug entscheiden 🧠";
-if(t.includes("wann fight vermeiden")) return "Wenn du im Nachteil bist ⚠️";
-if(t.includes("wann aggressiv spielen shooter")) return "Wenn du Vorteil hast 🔥";
-if(t.includes("wie defensiv halten")) return "Position sichern 🛡️";
-if(t.includes("wie richtig rotieren")) return "Früh planen 🔄";
-if(t.includes("wie bessere calls geben")) return "Kurz und präzise 💬";
-if(t.includes("was ist game sense")) return "Spielverständnis 🧠";
-if(t.includes("wie game sense trainieren")) return "Viel spielen + analysieren 🎮";
-if(t.includes("wie gegner outplayen")) return "Unerwartet spielen 😈";
-if(t.includes("wie bluffen im game")) return "Täuschungen nutzen 🎭";
-
-if(t.includes("wie clutch situation üben")) return "1vX trainieren 🔥";
-if(t.includes("beste clutch tipps")) return "Zeit nutzen ⏳";
-if(t.includes("wie nerven kontrollieren")) return "Ruhig atmen 😌";
-if(t.includes("wie tilt komplett vermeiden")) return "Mental stark bleiben 💪";
-if(t.includes("gaming mindset verbessern")) return "Positiv denken 🧠";
-if(t.includes("wie fokus im match halten")) return "Keine Ablenkung 🚫";
-if(t.includes("wie schnell reagieren shooter")) return "Reflexe trainieren ⚡";
-if(t.includes("beste reflex übungen")) return "Aim Trainer 🎯";
-if(t.includes("wie tracking verbessern")) return "Ziel folgen 🖱️";
-if(t.includes("wie flick aim trainieren")) return "Schnelle Bewegungen 🎯";
-
-if(t.includes("wie recoil komplett lernen")) return "Pattern auswendig 🧠";
-if(t.includes("beste spray kontrolle")) return "Langsam üben 🔫";
-if(t.includes("wie accuracy erhöhen")) return "Weniger schießen 🎯";
-if(t.includes("wann burst nutzen")) return "Mittlere Distanz 🔫";
-if(t.includes("wann tap fire")) return "Lange Distanz 🎯";
-if(t.includes("wie movement kombinieren")) return "Strafe + aim 🏃";
-if(t.includes("wie schwer zu treffen sein")) return "Unpredictable bewegen 😎";
-if(t.includes("beste dodge technik")) return "Zickzack laufen 🔄";
-if(t.includes("wie peek advantage")) return "Schneller reagieren ⚡";
-if(t.includes("was ist prefire")) return "Vorher schießen 🔫";
-
-if(t.includes("wie prefire nutzen")) return "Position kennen 🗺️";
-if(t.includes("wie sound lesen")) return "Genau hinhören 👂";
-if(t.includes("wie footsteps erkennen")) return "Richtung hören 👣";
-if(t.includes("wie silent spielen")) return "Langsam laufen 🤫";
-if(t.includes("beste stealth strategie")) return "Geduld 🕶️";
-if(t.includes("wie flankieren richtig")) return "Von hinten angreifen 🔄";
-if(t.includes("wie backstab")) return "Überraschung nutzen 🔪";
-if(t.includes("wie position wechseln")) return "Nicht predictabel sein 🔁";
-if(t.includes("wie safe spielen shooter")) return "Deckung nutzen 🛡️";
-if(t.includes("wie risk spielen")) return "Alles oder nichts 🔥";
-
-if(t.includes("wie team carry")) return "Beste Performance 💪";
-if(t.includes("wie team helfen")) return "Support spielen 🤝";
-if(t.includes("beste support tipps")) return "Team heilen ❤️";
-if(t.includes("wie tank spielen")) return "Schaden einstecken 🛡️";
-if(t.includes("wie damage dealer spielen")) return "Max DPS 💥";
-if(t.includes("wie utility nutzen")) return "Strategisch einsetzen 🧠";
-if(t.includes("beste grenade spots")) return "Map lernen 🗺️";
-if(t.includes("wie smoke nutzen")) return "Sicht blocken 🌫️";
-if(t.includes("wie flash nutzen")) return "Gegner blenden ⚡";
-if(t.includes("wie molotov nutzen")) return "Area kontrollieren 🔥";
-
-if(t.includes("wie eco spielen")) return "Sparen 💰";
-if(t.includes("wann kaufen")) return "Team abstimmen 🤝";
-if(t.includes("beste economy strategie")) return "Nicht verschwenden 💸";
-if(t.includes("wie geld farmen")) return "Objectives machen 🎯";
-if(t.includes("wie xp schnell farmen")) return "Missionen machen ⭐";
-if(t.includes("beste grind methode")) return "Wiederholen 🔁";
-if(t.includes("wie schneller leveln rpg")) return "Quests machen 📜";
-if(t.includes("beste quest tipps")) return "Nebenquests auch machen 🧭";
-if(t.includes("wie skill tree maxen")) return "Fokus setzen 🌳";
-if(t.includes("beste builds")) return "Meta nutzen 📊";
-
-if(t.includes("wie meta erkennen")) return "Top Spieler anschauen 👀";
-if(t.includes("wie patch notes verstehen")) return "Änderungen lesen 📝";
-if(t.includes("wie neuen patch nutzen")) return "Schnell anpassen 🔄";
-if(t.includes("beste aktuelle meta")) return "Kommt aufs Game an 🎮";
-if(t.includes("wie counter strategie")) return "Gegner lesen 🧠";
-if(t.includes("wie counter pick")) return "Schwächen nutzen ⚔️";
-if(t.includes("wie draft gewinnen")) return "Gute Auswahl 🎯";
-if(t.includes("wie synergy team")) return "Zusammen arbeiten 🤝";
-if(t.includes("beste combo attacke")) return "Timing wichtig ⏱️";
-if(t.includes("wie combo lernen")) return "Training 🔥";
-
-if(t.includes("wie besser parkour")) return "Timing üben 🏃";
-if(t.includes("wie jump timing")) return "Rhythmus lernen 🎵";
-if(t.includes("wie speedrun")) return "Optimieren ⏱️";
-if(t.includes("beste speedrun tipps")) return "Fehler minimieren 🚀";
-if(t.includes("wie shortcuts finden")) return "Erkunden 🔍";
-if(t.includes("wie glitches nutzen")) return "Vorsicht 😅";
-if(t.includes("wie game breaken")) return "Bug nutzen 😂";
-if(t.includes("wie secrets finden")) return "Alles durchsuchen 🧭";
-if(t.includes("wie easter eggs")) return "Versteckte Dinge 🥚";
-if(t.includes("wie exploration")) return "Zeit nehmen 🌍";
-
-if(t.includes("wie survival verbessern")) return "Ressourcen sammeln 🌲";
-if(t.includes("wie hunger vermeiden")) return "Essen sammeln 🍗";
-if(t.includes("wie base bauen")) return "Sicher bauen 🏠";
-if(t.includes("beste base location")) return "Versteckt 🕶️";
-if(t.includes("wie verteidigung bauen")) return "Fallen nutzen ⚠️";
-if(t.includes("wie raid verhindern")) return "Gut sichern 🔒";
-if(t.includes("wie raid machen")) return "Strategisch angreifen 💥";
-if(t.includes("beste raid tipps")) return "Planen 🧠";
-if(t.includes("wie loot sichern")) return "Verstecken 🎒";
-  
- return "🤖 Ich kann Mathe und einfache Fragen!";
+  try { return "🧠 Ergebnis: " + eval(t); }
+  catch { return "Fehler"; }
 }
 
+// 100+ GAMING Q&A
+if(t.includes("hallo")) return "Hi Gamer 👋";
+if(t.includes("wie geht")) return "Mir geht’s gut 😎";
+if(t.includes("bester gamer")) return "Du natürlich 😏";
+if(t.includes("wie besser werden")) return "Übung macht den Meister 🎯";
+if(t.includes("aim verbessern")) return "Aim Trainer nutzen 🎯";
+if(t.includes("fps verbessern")) return "Grafik runterstellen 🚀";
+if(t.includes("lag")) return "Internet prüfen 📡";
+if(t.includes("ping")) return "Näheren Server wählen 🌐";
+if(t.includes("beste waffe")) return "Die du beherrschst 🔫";
+if(t.includes("headshot")) return "Ziel auf den Kopf 🎯";
+if(t.includes("sniper")) return "Geduld ist wichtig 🔭";
+if(t.includes("rush")) return "Nur wenn du gut bist 😎";
+if(t.includes("campen")) return "Noob Style 😂";
+if(t.includes("movement")) return "Beweg dich ständig 🏃";
+if(t.includes("strategie")) return "Denke voraus 🧠";
+if(t.includes("win")) return "Spiel smart 🏆";
+if(t.includes("verlieren")) return "Lerne daraus 💪";
+if(t.includes("clutch")) return "Bleib ruhig 🔥";
+if(t.includes("team")) return "Teamwork ist wichtig 🤝";
+if(t.includes("solo")) return "Gut zum Üben 🎮";
+if(t.includes("beste spiel")) return "Dein Lieblingsspiel ❤️";
+if(t.includes("fortnite")) return "Hol dir Highground 🏗️";
+if(t.includes("minecraft")) return "Baue klug ⛏️";
+if(t.includes("cod")) return "Schnelle Reaktion 🔫";
+if(t.includes("csgo")) return "Kontrolliere Spray 🔫";
+if(t.includes("valorant")) return "Crosshair Placement 🎯";
+if(t.includes("roblox")) return "Probier neue Games 🎲";
+if(t.includes("gta")) return "Chaos macht Spaß 😈";
+if(t.includes("apex")) return "Bleib beim Team 🤝";
+if(t.includes("lol")) return "Farm mehr 💰";
+if(t.includes("elden ring")) return "Ausweichen lernen 🗡️";
+if(t.includes("beste maus")) return "Die, die dir passt 🖱️";
+if(t.includes("beste tastatur")) return "Mechanisch ist nice ⌨️";
+if(t.includes("setup")) return "RGB = mehr Skill 🌈";
+if(t.includes("gaming pc")) return "Gute GPU wichtig 💻";
+if(t.includes("fps niedrig")) return "Programme schließen 🧹";
+if(t.includes("grafik")) return "Balance finden ⚙️";
+if(t.includes("sound")) return "Sehr wichtig 🎧";
+if(t.includes("footsteps")) return "Hör genau hin 👣";
+if(t.includes("pro werden")) return "Viel trainieren 🔥";
+if(t.includes("noob")) return "Jeder fängt klein an 😄";
+if(t.includes("rage")) return "Pause machen 🛑";
+if(t.includes("tilt")) return "Bleib cool 🧊";
+if(t.includes("motivation")) return "Hab Spaß 🎮";
+if(t.includes("stream")) return "Sei unterhaltsam 🎥";
+if(t.includes("youtube")) return "Mach gute Videos 📺";
+if(t.includes("training")) return "Täglich üben 📅";
+if(t.includes("reaction")) return "Reflexe trainieren ⚡";
+if(t.includes("crosshair")) return "Mach es klein 🎯";
+if(t.includes("dpi")) return "800 ist gut 🖱️";
+if(t.includes("sens")) return "Teste viel ⚙️";
+if(t.includes("map")) return "Lerne sie gut 🗺️";
+if(t.includes("highground")) return "Großer Vorteil 🏗️";
+if(t.includes("lowground")) return "Schlechter Überblick ⬇️";
+if(t.includes("zone")) return "Bleib drin ⭕";
+if(t.includes("loot")) return "Sammle schnell 🎒";
+if(t.includes("inventory")) return "Ordnung halten 🎒";
+if(t.includes("granate")) return "Sehr stark 💣";
+if(t.includes("smoke")) return "Sicht blocken 🌫️";
+if(t.includes("flash")) return "Gegner blenden ⚡";
+if(t.includes("molotov")) return "Area sichern 🔥";
+if(t.includes("eco")) return "Geld sparen 💰";
+if(t.includes("rank")) return "Konstant spielen 📈";
+if(t.includes("elo")) return "Tilt vermeiden 😤";
+if(t.includes("update")) return "Neues lernen 🔄";
+if(t.includes("meta")) return "Patch beachten 📊";
+if(t.includes("combo")) return "Timing wichtig ⏱️";
+if(t.includes("boss")) return "Mechaniken lernen 🗡️";
+if(t.includes("raid")) return "Team nötig 🤝";
+if(t.includes("dungeon")) return "Loot sammeln 💰";
+if(t.includes("craft")) return "Items bauen 🔨";
+if(t.includes("level")) return "XP sammeln ⭐";
+if(t.includes("xp")) return "Missionen machen 🎯";
+if(t.includes("grind")) return "Wiederholen 🔁";
+if(t.includes("build")) return "Meta nutzen 📊";
+if(t.includes("skill")) return "Kommt mit Zeit ⏳";
+if(t.includes("gaming nacht")) return "Nicht zu lang 😂";
+if(t.includes("pause")) return "Sehr wichtig 👍";
+if(t.includes("fokus")) return "Keine Ablenkung 🧠";
+if(t.includes("konzentrieren")) return "Ruhe hilft 🧘";
+if(t.includes("fehler")) return "Analysieren 🧠";
+if(t.includes("lernen")) return "Aus Fehlern lernen 📚";
+if(t.includes("tip")) return "Bleib ruhig 😎";
+if(t.includes("trick")) return "Kleine Dinge zählen ✨";
+if(t.includes("strategie shooter")) return "Position halten 🎯";
+if(t.includes("battle royale")) return "Highground holen 🏗️";
+if(t.includes("survival")) return "Ressourcen sammeln 🌲";
+if(t.includes("rpg")) return "Leveln ⭐";
+if(t.includes("sandbox")) return "Frei spielen 🌍";
+if(t.includes("horror")) return "Gruselig 👻";
+if(t.includes("fun")) return "Spaß haben 😂";
+if(t.includes("competitive")) return "Schwitzen 😎";
+if(t.includes("casual")) return "Chillen 🛋️";
+if(t.includes("gg")) return "GG 🎉";
+if(t.includes("winrate")) return "Konstant bleiben 📊";
+if(t.includes("carry")) return "Spiel stark 💪";
+if(t.includes("support")) return "Hilf deinem Team 🤝";
+if(t.includes("tank")) return "Schaden tanken 🛡️";
+if(t.includes("damage")) return "Max DPS 💥";
+
+return "🤖 Frag mich was über Gaming!";
+}
+  catch { return "Fehler"; }
+}
+
+if(t.includes("hallo")) return "Hi Gamer 👋";
+if(t.includes("wie geht")) return "Gut 😎";
+
+return "🤖 Frag mich was!";
+}
 }
 
 const app=new App();
-
 </script>
 
 </body>
 </html>
-
