@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>gaming hub🎮</title>
+<title>🎮gaming hub🎮</title>
 
 <style>
 :root { --main:#00ffcc; }
@@ -33,6 +33,7 @@ header {
   cursor:pointer;
 }
 
+/* GRID */
 #games {
   display:flex;
   flex-wrap:wrap;
@@ -49,6 +50,7 @@ header {
 
 .game img { width:100%; }
 
+/* WINDOWS */
 .window {
   display:none;
   position:fixed;
@@ -77,6 +79,7 @@ header {
   cursor:pointer;
 }
 
+/* CHAT */
 #chat {
   display:none;
   position:fixed;
@@ -101,6 +104,7 @@ header {
 
 #input { display:flex; }
 #input input { flex:1; padding:8px; }
+
 </style>
 </head>
 
@@ -109,12 +113,15 @@ header {
 <header>🎮 the game</header>
 
 <div>
+  <!-- FILTER -->
   <button class="btn" onclick="app.filter('all')">Alle</button>
   <button class="btn" onclick="app.filter('racing')">🚗 Racing</button>
   <button class="btn" onclick="app.filter('action')">🔫 Action</button>
 
+  <!-- SORT -->
   <button class="btn" onclick="app.sortAZ()">A-Z</button>
 
+  <!-- EXTRA -->
   <button class="btn" onclick="app.toggleChat()">🤖 KI</button>
   <button class="btn" onclick="app.openSounds()">🔊 Sounds</button>
 
@@ -124,16 +131,19 @@ header {
 
 <div id="games"></div>
 
+<!-- GAME -->
 <div id="gameWindow" class="window">
   <button class="close" onclick="app.closeGame()">❌</button>
   <iframe id="player"></iframe>
 </div>
 
+<!-- SOUNDS -->
 <div id="soundWindow" class="window">
   <button class="close" onclick="app.closeSounds()">❌</button>
   <iframe src="https://www.myinstants.com"></iframe>
 </div>
 
+<!-- CHAT -->
 <div id="chat">
   <button class="close" onclick="app.toggleChat()">❌</button>
   <div id="messages"></div>
@@ -144,11 +154,22 @@ header {
 </div>
 
 <script>
+
 class App {
+
 constructor(){
 this.games=[
+
 {title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
-{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"}
+{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
+{title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
+{title:"Space Pinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
+{title:"Higher or Lower",category:"racing",url:"https://cdn.htmlgames.com/HigherOrLower/",image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
+{title:"City Sniper",category:"action",url:"https://cdn.htmlgames.com/CitySniper/",image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
+{title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
+{title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
+{title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
+
 ];
 
 this.filtered=[...this.games];
@@ -164,6 +185,7 @@ this.render(this.filtered.filter(g=>g.title.toLowerCase().includes(val)));
 });
 }
 
+/* RENDER */
 render(list){
 const c=document.getElementById("games");
 c.innerHTML="";
@@ -176,17 +198,23 @@ c.appendChild(div);
 });
 }
 
+/* FILTER */
 filter(cat){
-if(cat==="all") this.filtered=[...this.games];
-else this.filtered=this.games.filter(g=>g.category===cat);
+if(cat==="all"){
+this.filtered=[...this.games];
+} else {
+this.filtered=this.games.filter(g=>g.category===cat);
+}
 this.render(this.filtered);
 }
 
+/* SORT */
 sortAZ(){
 this.filtered.sort((a,b)=>a.title.localeCompare(b.title));
 this.render(this.filtered);
 }
 
+/* GAME */
 openGame(url){
 document.getElementById("gameWindow").style.display="block";
 document.getElementById("player").src=url;
@@ -196,6 +224,7 @@ closeGame(){
 document.getElementById("gameWindow").style.display="none";
 }
 
+/* SOUNDS */
 openSounds(){
 document.getElementById("soundWindow").style.display="block";
 }
@@ -204,6 +233,7 @@ closeSounds(){
 document.getElementById("soundWindow").style.display="none";
 }
 
+/* CHAT */
 toggleChat(){
 const c=document.getElementById("chat");
 c.style.display=c.style.display==="flex"?"none":"flex";
@@ -225,129 +255,26 @@ m.innerText=text;
 document.getElementById("messages").appendChild(m);
 }
 
+/* KI (MATHE + BASIC) */
 ai(t){
-t = t.toLowerCase();
+t=t.toLowerCase();
 
-// MATHE
 if(t.includes("+")||t.includes("-")||t.includes("*")||t.includes("/")){
-  try { return "🧠 Ergebnis: " + eval(t); }
-  catch { return "Fehler"; }
+try{return "🧠 Ergebnis: "+eval(t);}catch{return "Fehler";}}
+
+if(t.includes("hallo")) return "Hi 👋";
+if(t.includes("wer bist du")) return "Ich bin deine KI 🤖";
+if(t.includes("mathe")) return "Schreib mir z.B. 5+5 😎";
+if(t.includes("x")) return "hallo chef ja ich gehöte Alessio curiale und ich bin sein selbst programmierte ki";
+if(t.includes("kaka")) return "milan reischel ist kaka";
+
+return "🤖 Ich kann Mathe und einfache Fragen!";
 }
 
-// 100+ GAMING Q&A
-if(t.includes("hallo")) return "Hi Gamer 👋";
-if(t.includes("wie geht")) return "Mir geht’s gut 😎";
-if(t.includes("bester gamer")) return "Du natürlich 😏";
-if(t.includes("wie besser werden")) return "Übung macht den Meister 🎯";
-if(t.includes("aim verbessern")) return "Aim Trainer nutzen 🎯";
-if(t.includes("fps verbessern")) return "Grafik runterstellen 🚀";
-if(t.includes("lag")) return "Internet prüfen 📡";
-if(t.includes("ping")) return "Näheren Server wählen 🌐";
-if(t.includes("beste waffe")) return "Die du beherrschst 🔫";
-if(t.includes("headshot")) return "Ziel auf den Kopf 🎯";
-if(t.includes("sniper")) return "Geduld ist wichtig 🔭";
-if(t.includes("rush")) return "Nur wenn du gut bist 😎";
-if(t.includes("campen")) return "Noob Style 😂";
-if(t.includes("movement")) return "Beweg dich ständig 🏃";
-if(t.includes("strategie")) return "Denke voraus 🧠";
-if(t.includes("win")) return "Spiel smart 🏆";
-if(t.includes("verlieren")) return "Lerne daraus 💪";
-if(t.includes("clutch")) return "Bleib ruhig 🔥";
-if(t.includes("team")) return "Teamwork ist wichtig 🤝";
-if(t.includes("solo")) return "Gut zum Üben 🎮";
-if(t.includes("beste spiel")) return "Dein Lieblingsspiel ❤️";
-if(t.includes("fortnite")) return "Hol dir Highground 🏗️";
-if(t.includes("minecraft")) return "Baue klug ⛏️";
-if(t.includes("cod")) return "Schnelle Reaktion 🔫";
-if(t.includes("csgo")) return "Kontrolliere Spray 🔫";
-if(t.includes("valorant")) return "Crosshair Placement 🎯";
-if(t.includes("roblox")) return "Probier neue Games 🎲";
-if(t.includes("gta")) return "Chaos macht Spaß 😈";
-if(t.includes("apex")) return "Bleib beim Team 🤝";
-if(t.includes("lol")) return "Farm mehr 💰";
-if(t.includes("elden ring")) return "Ausweichen lernen 🗡️";
-if(t.includes("beste maus")) return "Die, die dir passt 🖱️";
-if(t.includes("beste tastatur")) return "Mechanisch ist nice ⌨️";
-if(t.includes("setup")) return "RGB = mehr Skill 🌈";
-if(t.includes("gaming pc")) return "Gute GPU wichtig 💻";
-if(t.includes("fps niedrig")) return "Programme schließen 🧹";
-if(t.includes("grafik")) return "Balance finden ⚙️";
-if(t.includes("sound")) return "Sehr wichtig 🎧";
-if(t.includes("footsteps")) return "Hör genau hin 👣";
-if(t.includes("pro werden")) return "Viel trainieren 🔥";
-if(t.includes("noob")) return "Jeder fängt klein an 😄";
-if(t.includes("rage")) return "Pause machen 🛑";
-if(t.includes("tilt")) return "Bleib cool 🧊";
-if(t.includes("motivation")) return "Hab Spaß 🎮";
-if(t.includes("stream")) return "Sei unterhaltsam 🎥";
-if(t.includes("youtube")) return "Mach gute Videos 📺";
-if(t.includes("training")) return "Täglich üben 📅";
-if(t.includes("reaction")) return "Reflexe trainieren ⚡";
-if(t.includes("crosshair")) return "Mach es klein 🎯";
-if(t.includes("dpi")) return "800 ist gut 🖱️";
-if(t.includes("sens")) return "Teste viel ⚙️";
-if(t.includes("map")) return "Lerne sie gut 🗺️";
-if(t.includes("highground")) return "Großer Vorteil 🏗️";
-if(t.includes("lowground")) return "Schlechter Überblick ⬇️";
-if(t.includes("zone")) return "Bleib drin ⭕";
-if(t.includes("loot")) return "Sammle schnell 🎒";
-if(t.includes("inventory")) return "Ordnung halten 🎒";
-if(t.includes("granate")) return "Sehr stark 💣";
-if(t.includes("smoke")) return "Sicht blocken 🌫️";
-if(t.includes("flash")) return "Gegner blenden ⚡";
-if(t.includes("molotov")) return "Area sichern 🔥";
-if(t.includes("eco")) return "Geld sparen 💰";
-if(t.includes("rank")) return "Konstant spielen 📈";
-if(t.includes("elo")) return "Tilt vermeiden 😤";
-if(t.includes("update")) return "Neues lernen 🔄";
-if(t.includes("meta")) return "Patch beachten 📊";
-if(t.includes("combo")) return "Timing wichtig ⏱️";
-if(t.includes("boss")) return "Mechaniken lernen 🗡️";
-if(t.includes("raid")) return "Team nötig 🤝";
-if(t.includes("dungeon")) return "Loot sammeln 💰";
-if(t.includes("craft")) return "Items bauen 🔨";
-if(t.includes("level")) return "XP sammeln ⭐";
-if(t.includes("xp")) return "Missionen machen 🎯";
-if(t.includes("grind")) return "Wiederholen 🔁";
-if(t.includes("build")) return "Meta nutzen 📊";
-if(t.includes("skill")) return "Kommt mit Zeit ⏳";
-if(t.includes("gaming nacht")) return "Nicht zu lang 😂";
-if(t.includes("pause")) return "Sehr wichtig 👍";
-if(t.includes("fokus")) return "Keine Ablenkung 🧠";
-if(t.includes("konzentrieren")) return "Ruhe hilft 🧘";
-if(t.includes("fehler")) return "Analysieren 🧠";
-if(t.includes("lernen")) return "Aus Fehlern lernen 📚";
-if(t.includes("tip")) return "Bleib ruhig 😎";
-if(t.includes("trick")) return "Kleine Dinge zählen ✨";
-if(t.includes("strategie shooter")) return "Position halten 🎯";
-if(t.includes("battle royale")) return "Highground holen 🏗️";
-if(t.includes("survival")) return "Ressourcen sammeln 🌲";
-if(t.includes("rpg")) return "Leveln ⭐";
-if(t.includes("sandbox")) return "Frei spielen 🌍";
-if(t.includes("horror")) return "Gruselig 👻";
-if(t.includes("fun")) return "Spaß haben 😂";
-if(t.includes("competitive")) return "Schwitzen 😎";
-if(t.includes("casual")) return "Chillen 🛋️";
-if(t.includes("gg")) return "GG 🎉";
-if(t.includes("winrate")) return "Konstant bleiben 📊";
-if(t.includes("carry")) return "Spiel stark 💪";
-if(t.includes("support")) return "Hilf deinem Team 🤝";
-if(t.includes("tank")) return "Schaden tanken 🛡️";
-if(t.includes("damage")) return "Max DPS 💥";
-
-return "🤖 Frag mich was über Gaming!";
-}
-  catch { return "Fehler"; }
-}
-
-if(t.includes("hallo")) return "Hi Gamer 👋";
-if(t.includes("wie geht")) return "Gut 😎";
-
-return "🤖 Frag mich was!";
-}
 }
 
 const app=new App();
+
 </script>
 
 </body>
