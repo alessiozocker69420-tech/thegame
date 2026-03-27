@@ -2,226 +2,310 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Gaming Hub PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>teh game</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial;
-  background: radial-gradient(circle, #020617, #000);
-  color: white;
-  text-align: center;
+
+/* ================= VARIABLES ================= */
+:root {
+  --primary: #00ffcc;
+  --secondary: #22c55e;
+  --bg: #020617;
+  --card: #111;
+  --text: white;
 }
 
-/* HEADER */
+.light {
+  --bg: #f0f0f0;
+  --card: #fff;
+  --text: #111;
+}
+
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle, var(--bg), black);
+  color: var(--text);
+  text-align: center;
+  transition: 0.3s;
+}
+
 header {
+  font-size: 36px;
   padding: 20px;
-  font-size: 30px;
   font-weight: bold;
-  background: linear-gradient(90deg, #00ffcc, #22c55e);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   color: transparent;
 }
 
-/* BUTTONS */
+/* ================= CONTROLS ================= */
 .controls {
   margin: 20px;
 }
 
 .btn {
-  margin: 5px;
-  padding: 12px 20px;
+  margin: 6px;
+  padding: 12px 18px;
   border: none;
   border-radius: 12px;
-  background: #111;
-  color: #00ffcc;
+  background: var(--card);
+  color: var(--primary);
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
-  box-shadow: 0 0 10px #00ffcc44;
+  transition: 0.25s;
 }
 
 .btn:hover {
-  background: #00ffcc;
+  background: var(--primary);
   color: black;
   transform: scale(1.1);
 }
 
-/* GAMES GRID */
+#search {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+}
+
+/* ================= GRID ================= */
 #games {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-/* GAME CARD */
 .game {
-  width: 200px;
+  width: 220px;
   margin: 15px;
-  background: #111;
+  background: var(--card);
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
   transition: 0.3s;
-  box-shadow: 0 0 15px #000;
+  position: relative;
 }
 
 .game:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #00ffcc;
+  transform: scale(1.12);
+  box-shadow: 0 0 30px var(--primary);
 }
 
 .game img {
   width: 100%;
+  height: 140px;
+  object-fit: cover;
 }
 
 .game h3 {
   padding: 10px;
 }
 
-/* PLAYER */
-#player {
-  margin: 20px auto;
-  width: 90%;
-  height: 500px;
-  display: none;
-  border: 2px solid #00ffcc;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #00ffcc;
-}
-
-/* MYINSTANTS WINDOW */
-#instantsBox {
-  display: none;
-  position: fixed;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 85%;
-  background: #000;
-  border: 2px solid #00ffcc;
-  border-radius: 15px;
-  box-shadow: 0 0 30px #00ffcc;
-  z-index: 999;
-}
-
-#instantsFrame {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 15px;
-}
-
-.closeBtn {
+/* FAVORITE */
+.fav {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: red;
+  background: black;
   border: none;
-  padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 50%;
+  color: gold;
   cursor: pointer;
-  color: white;
-  font-weight: bold;
 }
-</style>
 
+/* PLAYER */
+#player {
+  width: 90%;
+  height: 500px;
+  margin: 20px auto;
+  display: none;
+  border-radius: 15px;
+  border: 2px solid var(--primary);
+}
+
+/* LOADING */
+#loading {
+  display: none;
+  color: var(--primary);
+  font-size: 18px;
+}
+
+/* STATS */
+#stats {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+footer {
+  margin-top: 30px;
+  opacity: 0.6;
+}
+
+</style>
 </head>
+
 <body>
 
-<header>🎮 GAMING HUB PRO</header>
+<header>🎮 teh game</header>
 
 <div class="controls">
+  <button class="btn" onclick="app.filter('all')">Alle</button>
+  <button class="btn" onclick="app.filter('action')">Action</button>
+  <button class="btn" onclick="app.filter('racing')">Racing</button>
 
-  <!-- FILTER -->
-  <button class="btn" onclick="filterGames('all')">Alle</button>
-  <button class="btn" onclick="filterGames('racing')">Racing</button>
-  <button class="btn" onclick="filterGames('action')">Action</button>
+  <button class="btn" onclick="app.toggleTheme()">🌗 Theme</button>
+  <button class="btn" onclick="app.openChat()">🤖 ChatGPT</button>
 
-  <!-- EXTRA -->
-  <button class="btn" onclick="openChatGPT()">🤖 ChatGPT</button>
-  <button class="btn" onclick="openSounds()">🔊 Sounds</button>
-
+  <br>
+  <input id="search" placeholder="🔍 Suche Spiele...">
 </div>
 
-<!-- GAME PLAYER -->
+<div id="stats"></div>
+<div id="loading">⏳ Spiel lädt...</div>
 <iframe id="player"></iframe>
 
-<!-- MYINSTANTS -->
-<div id="instantsBox">
-  <button class="closeBtn" onclick="closeInstants()">❌</button>
-  <iframe id="instantsFrame" src="https://www.myinstants.com"></iframe>
-</div>
-
-<!-- GAMES -->
 <div id="games"></div>
+
+<footer>⚡ teh game – built like a pro</footer>
 
 <script>
 
-// 🤖 ChatGPT
-function openChatGPT() {
-  window.open("https://chat.openai.com", "_blank");
+/* ================= APP CLASS ================= */
+class TehGameApp {
+
+  constructor() {
+    this.games = [];
+    this.filtered = [];
+    this.favorites = JSON.parse(localStorage.getItem("fav")) || [];
+    this.playCount = JSON.parse(localStorage.getItem("plays")) || 0;
+
+    this.init();
+  }
+
+  init() {
+    this.loadGames();
+    this.bindEvents();
+    this.render(this.games);
+    this.updateStats();
+  }
+
+  /* ================= GAME DATA ================= */
+  loadGames() {
+    this.games = [
+
+      {title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
+
+      {title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
+
+      {title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
+
+      {title:"Space Pinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
+
+      {title:"Higher or Lower",category:"racing",url:"https://cdn.htmlgames.com/HigherOrLower/",image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
+
+      {title:"City Sniper",category:"action",url:"https://cdn.htmlgames.com/CitySniper/",image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
+
+      {title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
+
+      {title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
+
+      {title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
+
+    ];
+  }
+
+  /* ================= EVENTS ================= */
+  bindEvents() {
+    document.getElementById("search").addEventListener("input", e => {
+      const val = e.target.value.toLowerCase();
+      this.render(this.games.filter(g => g.title.toLowerCase().includes(val)));
+    });
+  }
+
+  /* ================= RENDER ================= */
+  render(list) {
+    this.filtered = list;
+    const container = document.getElementById("games");
+    container.innerHTML = "";
+
+    list.forEach(game => {
+      const div = document.createElement("div");
+      div.className = "game";
+
+      div.innerHTML = `
+        <img src="${game.image}">
+        <h3>${game.title}</h3>
+        <button class="fav">${this.favorites.includes(game.title) ? "★" : "☆"}</button>
+      `;
+
+      div.onclick = () => this.startGame(game.url);
+
+      div.querySelector(".fav").onclick = (e) => {
+        e.stopPropagation();
+        this.toggleFav(game.title);
+      };
+
+      container.appendChild(div);
+    });
+  }
+
+  /* ================= GAME ================= */
+  startGame(url) {
+    const player = document.getElementById("player");
+    const loading = document.getElementById("loading");
+
+    loading.style.display = "block";
+    player.style.display = "block";
+
+    player.onload = () => loading.style.display = "none";
+    player.src = url;
+
+    this.playCount++;
+    localStorage.setItem("plays", this.playCount);
+
+    this.updateStats();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  /* ================= FILTER ================= */
+  filter(cat) {
+    if(cat === "all") return this.render(this.games);
+    this.render(this.games.filter(g => g.category === cat));
+  }
+
+  /* ================= FAVORITES ================= */
+  toggleFav(title) {
+    if(this.favorites.includes(title)) {
+      this.favorites = this.favorites.filter(f => f !== title);
+    } else {
+      this.favorites.push(title);
+    }
+    localStorage.setItem("fav", JSON.stringify(this.favorites));
+    this.render(this.filtered);
+  }
+
+  /* ================= STATS ================= */
+  updateStats() {
+    document.getElementById("stats").innerText =
+      `⭐ Favoriten: ${this.favorites.length} | 🎮 Gespielt: ${this.playCount}`;
+  }
+
+  /* ================= EXTRA ================= */
+  toggleTheme() {
+    document.body.classList.toggle("light");
+  }
+
+  openChat() {
+    window.open("https://chatgpt.com");
+  }
+
 }
 
-// 🔊 MyInstants öffnen
-function openSounds() {
-  document.getElementById("instantsBox").style.display = "block";
-}
-
-// ❌ schließen
-function closeInstants() {
-  document.getElementById("instantsBox").style.display = "none";
-}
-
-// 🎮 SPIELE
-const games = [
-
-{title:"Ultimate Car Driving Simulator",category:"racing",url:"https://www.madkidgames.com/full/ultimate-car-driving-simulator",image:"https://via.placeholder.com/200"},
-{title:"Airport Sniper",category:"action",url:"https://cdn.htmlgames.com/AirportSniper/",image:"https://cdn.spiele-kostenlos-online.de/wp-content/uploads/airport-sniper-01-160x110.webp"},
-{title:"Traffic Racer 2",category:"racing",url:"https://cdn.htmlgames.com/TrafficRacer2/",image:"https://www.aktionspiele.de/uploaded/game/screenshot/trafficracer2800480.webp"},
-{title:"Space Pinball",category:"racing",url:"https://cdn.htmlgames.com/SpacePinball/",image:"https://cdn.aptoide.com/imgs/1/b/1/1b1fa0c0dad30873323f0b001fc6e68e_icon.png"},
-{title:"Higher or Lower",category:"racing",url:"https://cdn.htmlgames.com/HigherOrLower/",image:"https://www.denkspiele.com/uploaded/game/screenshot/higherorLower800480.webp"},
-{title:"City Sniper",category:"action",url:"https://cdn.htmlgames.com/CitySniper/",image:"https://www.sellmyapp.com/wp-content/uploads/featured_image63417aad1a69e.png"},
-{title:"Thief Puzzle",category:"action",url:"https://play.famobi.com/thief-puzzle",image:"https://via.placeholder.com/200"},
-{title:"Geometry Dash",category:"racing",url:"https://gdbrowser.com",image:"https://via.placeholder.com/200"},
-{title:"Galaxy Shooter",category:"action",url:"https://cdn.htmlgames.com/GalaxyShooter/",image:"https://via.placeholder.com/200"}
-
-];
-
-// anzeigen
-const container = document.getElementById("games");
-
-function displayGames(list) {
-  container.innerHTML = "";
-
-  list.forEach(game => {
-    const div = document.createElement("div");
-    div.className = "game";
-
-    div.innerHTML = `
-      <img src="${game.image}">
-      <h3>${game.title}</h3>
-    `;
-
-    div.onclick = () => {
-      const player = document.getElementById("player");
-      player.style.display = "block";
-      player.src = game.url;
-      window.scrollTo(0,0);
-    };
-
-    container.appendChild(div);
-  });
-}
-
-// FILTER
-function filterGames(cat) {
-  if (cat === "all") return displayGames(games);
-  displayGames(games.filter(g => g.category === cat));
-}
-
-// START
-displayGames(games);
+/* ================= START ================= */
+const app = new TehGameApp();
 
 </script>
 
